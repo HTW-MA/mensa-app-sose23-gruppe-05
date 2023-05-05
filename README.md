@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MensaMania
 
 # asdasdsadas 
@@ -69,3 +70,11 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+=======
+# mensa-app-sose23-gruppe-05
+mensa-app-sose23-gruppe-05 created by GitHub Classroom\
+Team:\
+-Nick Mendel\
+-Furkan Kalkan\
+-Leon Korth
+>>>>>>> b1e529b4390c82a9f44b49f0980a41dbee78ffd5
