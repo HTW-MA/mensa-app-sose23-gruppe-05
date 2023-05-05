@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-
 # MensaMania
 
-# Nuxt.js
+# Build with Nuxt.js
 
 ## Build Setup
 
@@ -78,5 +76,3 @@ Team:\
 -Nick Mendel\
 -Furkan Selim Kalkan\
 -Leon Korth
-
-> > > > > > > b1e529b4390c82a9f44b49f0980a41dbee78ffd5
