@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # MensaMania
 
 ## Build Setup
@@ -42,7 +43,6 @@ Layouts are a great help when you want to change the look and feel of your Nuxt 
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
 
-
 ### `pages`
 
 This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
@@ -67,12 +67,14 @@ More information about the usage of this directory in [the documentation](https:
 
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
-=======
+# More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
 # mensa-app-sose23-gruppe-05
+
 mensa-app-sose23-gruppe-05 created by GitHub Classroom\
 Team:\
 -Nick Mendel\
--Furkan Kalkan\
+-Furkan Selim Kalkan\
 -Leon Korth
->>>>>>> b1e529b4390c82a9f44b49f0980a41dbee78ffd5
+
+> > > > > > > b1e529b4390c82a9f44b49f0980a41dbee78ffd5
