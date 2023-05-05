@@ -2,6 +2,8 @@
 
 # MensaMania
 
+# Nuxt.js
+
 ## Build Setup
 
 ```bash
