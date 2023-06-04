@@ -27,11 +27,23 @@
 </template>
 
 <script>
+import {RestClient} from "~/static/RestClient";
+
 export default {
   name: 'DefaultLayout',
   data() {
-    return {}
-  }
+    return {
+        canteen: '',
+        allCanteens: '',
+        canteenMenu: ''
+    }
+  },
+    mounted() {
+        RestClient.getCanteenById('6375f3112e6cbe73bac78a7d').then(data => { this.canteen = data;})
+        RestClient.getAllCanteens().then(data => { this.allCanteens = data;})
+        RestClient.getMenueForCanteenInPeriod('6375f3112e6cbe73bac78a7d', '2023-06-15', '2023-06-20').then(data => { this.canteenMenu = data;})
+    }
+
 }
 </script>
 
