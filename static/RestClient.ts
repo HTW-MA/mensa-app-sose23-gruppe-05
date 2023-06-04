@@ -27,7 +27,6 @@ export class RestClient {
                 }
                 return response.json();
             })
-            .then(data =>  JSON.stringify(data))
             .catch(error => {
                 console.error("Error:", error);
             });

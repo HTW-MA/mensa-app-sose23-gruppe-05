@@ -11,6 +11,13 @@
         </nav>
       </div>
     </header>
+      <body>
+      <div>
+          <span>
+              {{canteen.name}}
+          </span>
+      </div>
+      </body>
     <footer>
       <div className="wrapper">
         <nav>
@@ -39,9 +46,9 @@ export default {
     }
   },
     mounted() {
-        RestClient.getCanteenById('6375f3112e6cbe73bac78a7d').then(data => { this.canteen = data;})
+        RestClient.getCanteenById('6375f3112e6cbe73bac78a7d').then(data => { this.canteen = data[0];})
         RestClient.getAllCanteens().then(data => { this.allCanteens = data;})
-        RestClient.getMenueForCanteenInPeriod('6375f3112e6cbe73bac78a7d', '2023-06-15', '2023-06-20').then(data => { this.canteenMenu = data;})
+        RestClient.getMenueForCanteenInPeriod('6375f3112e6cbe73bac78a7d', '2023-06-15', '2023-06-20').then(data => { this.canteenMenu = data[0];})
     }
 
 }
