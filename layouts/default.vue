@@ -6,7 +6,6 @@
           <div className="nav-connected">
             <NuxtLink to="/"><img className="logo" src="../assets/logo-removebg.png" alt="logo"></NuxtLink>
             <NuxtLink class="link" to="/"><p className="welcome-text">MensaMania</p></NuxtLink>
-            <font-awesome-icon :icon="['fasl', 'gear']" size="2xs"/>
           </div>
         </nav>
       </div>
