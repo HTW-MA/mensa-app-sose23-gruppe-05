@@ -54,7 +54,6 @@ export default {
   background-color: #FFA500;
   padding: 10px;
   color: white;
-  margin-top: 10px;
 }
 
 .canteen-header h1 {

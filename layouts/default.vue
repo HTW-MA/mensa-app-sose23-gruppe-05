@@ -102,10 +102,11 @@ header {
   background-color: #FFA500;
   top: 0;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 footer {
-  margin-top: auto;
+  margin-top: 10px;
   background-color: #FFA500;
   width: 100%;
 }
