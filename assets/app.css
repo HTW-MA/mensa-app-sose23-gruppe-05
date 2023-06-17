@@ -1,0 +1,6 @@
+/*# Define global css here */
+
+/*# Set body margin to 0 to get rid of the corner margins outside our app */
+body {
+    margin: 0;
+}
