@@ -1,31 +1,30 @@
 <template>
-  <div>
+  <div class="container">
     <header>
-      <div className="wrapper">
+      <div>
         <nav>
-          <div className="nav-connected">
-            <NuxtLink to="/"><img className="logo" src="../assets/logo-removebg.png" alt="logo"></NuxtLink>
-            <NuxtLink class="link" to="/"><p className="welcome-text">MensaMania</p></NuxtLink>
+          <div class="nav-connected">
+            <NuxtLink to="/"><img class="logo" src="../assets/logo-removebg.png" alt="logo"></NuxtLink>
+            <NuxtLink class="link" to="/"><p class="welcome-text">MensaMania</p></NuxtLink>
           </div>
         </nav>
       </div>
     </header>
-      <body>
-      <div>
-      </div>
-      </body>
+      <main>
+        <NuxtPage />
+      </main>
     <footer>
-      <div className="wrapper">
+      <div class="wrapper">
         <nav>
-          <div className="nav-connected">
+          <div class="nav-connected">
             <NuxtLink class="link" to="/x1">Nav1</NuxtLink>
             <NuxtLink class="link" to="/">Home</NuxtLink>
             <NuxtLink class="link" to="/x1">Nav2</NuxtLink>
+            <NuxtLink class="link" to="/canteenDetails">Details</NuxtLink>
           </div>
         </nav>
       </div>
     </footer>
-
   </div>
 </template>
 
@@ -34,11 +33,21 @@
 
 export default {
   name: 'DefaultLayout',
-
 }
 </script>
 
 <style>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
 nav {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -89,14 +98,19 @@ nav {
   cursor: default;
 }
 
-footer {
+header {
   background-color: #FFA500;
-  position: fixed;
-  bottom: 0;
+  top: 0;
   width: 100%;
 }
 
-footer .wrapper {
+footer {
+  margin-top: auto;
+  background-color: #FFA500;
+  width: 100%;
+}
+
+.wrapper {
   display: flex;
   justify-content: center;
   padding: 10px;
