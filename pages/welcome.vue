@@ -1,15 +1,15 @@
 <template>
   <div class="container mt-5">
-    <h1 class="text-center text-primary" style="font-family: 'Comme'; color: #555;">Willkommen zu MensaMania!</h1>
+    <h1 class="text-center" style="font-family: 'Comme'; color: #555;">Willkommen zu MensaMania!</h1>
     <div class="row justify-content-center mt-5">
       <div class="col-lg-6">
         <div class="mb-3">
           <label for="searchField" class="form-label" style="font-weight: bold; color: #555;">Lieblingsmensa:</label>
           <input className="canteenSearch" type="text" id="canteenSearch" class="form-control equal-width"
             v-model="canteen" placeholder="Suche deine Liebslingsmensa" style="background-color: #ffffff;"
-            @input="searchCanteen">
+            @input="searchCanteen" >
         </div>
-        <ul class="list-group">
+        <ul class="list-group" v-if="showResults===true">
           <li v-for="result in filteredResults" :key="result.id" class="list-group-item" @click="selectCanteen(result)">
             {{ result.name }}
           </li>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="mb-3">
           <label for="roleSelect" class="form-label" style="font-weight: bold; color: #555;">Rolle:</label>
           <select className="roleSelect" id="roleSelect" class="form-select equal-width" v-model="selectedRole"
@@ -30,9 +30,9 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-center mt-3">
-      <div class="col-lg-4">
-        <NuxtLink class="btn btn-primary" @click="saveSetting">Speichern</NuxtLink>
+    <div class="row justify-content-center mt-3 ">
+      <div class="col-lg-2">
+        <NuxtLink class="btn" @click="saveSetting">Speichern</NuxtLink>
       </div>
     </div>
   </div>
@@ -41,7 +41,6 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
-import { defineComponent } from 'vue';
 
 export default {
   name: 'WelcomePage',
@@ -89,8 +88,8 @@ export default {
         return;
       }
 
-      localStorage.setItem('role', this.selectedRole);
-      localStorage.setItem('canteen', this.canteen);
+      localStorage.setItem('userRole', this.selectedRole);
+      localStorage.setItem('favoriteCanteen', this.canteen);
       localStorage.setItem('hasVisited', true);
       const router = useRouter();
       router.push('/');
@@ -107,26 +106,18 @@ export default {
 </script>
 
 <style scoped>
-/* .container {
-  text-align: center;
+.btn {
+  background-color: #ff922b;
+  color: #333;
 }
 
-.equal-width {
-  width: 10%;
-}
-
-.btn-primary:hover {
+.btn:hover {
   background-color: #ffc078;
-  border-color: #ffc078;
+  color: #333;
 }
 
-.btn-primary:focus,
-.btn-primary:active {
-  background-color: #d9480f;
-  border-color: #d9480f;
+.btn{
+  transition: all .7s ;
 }
 
-select.form-select {
-  color: #555;
-} */
 </style>
