@@ -19,7 +19,7 @@
           <div class="nav-connected">
             <NuxtLink class="link" to="/x1">Nav1</NuxtLink>
             <NuxtLink class="link" to="/">Home</NuxtLink>
-            <NuxtLink class="link" to="/x1">Nav2</NuxtLink>
+              <NuxtLink class="link" to="/canteenList">List</NuxtLink>
             <NuxtLink class="link" to="/canteenDetails">Details</NuxtLink>
           </div>
         </nav>
