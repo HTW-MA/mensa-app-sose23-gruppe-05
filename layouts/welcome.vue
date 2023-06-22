@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="" style="border-image-slice: ;">
+      <div>
         <nav class="navbar navbar-light" style="background-color: white;font-family: Comme;">
           <div class="container-fluid" id="logo1" >
             <a class="navbar-brand">

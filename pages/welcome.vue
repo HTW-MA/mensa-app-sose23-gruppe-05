@@ -91,6 +91,7 @@ export default {
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('favoriteCanteen', this.canteen);
       localStorage.setItem('hasVisited', true);
+      localStorage.setItem('favoriteCanteenId', this.filteredResults.find(canteen => canteen.name === this.canteen).id);
       const router = useRouter();
       router.push('/');
     }
