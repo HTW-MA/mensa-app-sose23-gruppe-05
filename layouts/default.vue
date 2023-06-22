@@ -2,24 +2,25 @@
   <div class="container">
     <header>
       <div>
-        <nav>
-          <div class="nav-connected">
-            <NuxtLink to="/"><img class="logo" src="../assets/logo-removebg.png" alt="logo"></NuxtLink>
-            <NuxtLink class="link" to="/"><p class="welcome-text">MensaMania</p></NuxtLink>
+        <nav class="navbar navbar-light" style="background-color: white;font-family: Comme;">
+          <div class="container-fluid" id="logo1">
+            <a class="navbar-brand">
+              <img src="../assets/logo.png" alt="logo" style="height: 50px;width: auto;margin: 10px;" class="">
+            </a>
           </div>
         </nav>
       </div>
     </header>
-      <main>
-        <NuxtPage />
-      </main>
+    <main>
+      <NuxtPage />
+    </main>
     <footer>
       <div class="wrapper">
         <nav>
           <div class="nav-connected">
             <NuxtLink class="link" to="/x1">Nav1</NuxtLink>
             <NuxtLink class="link" to="/">Home</NuxtLink>
-              <NuxtLink class="link" to="/canteenList">List</NuxtLink>
+            <NuxtLink class="link" to="/canteenList">List</NuxtLink>
             <NuxtLink class="link" to="/canteenDetails">Details</NuxtLink>
           </div>
         </nav>
@@ -52,7 +53,7 @@ nav {
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr;
-  background-color: #FFA500;
+  background-color: #ff992b;
   align-items: center;
   justify-content: center;
 }
@@ -76,8 +77,10 @@ nav {
   margin-right: 5px;
 }
 
-.link:hover, .link:active, .link:focus {
-  color: #FFA500;
+.link:hover,
+.link:active,
+.link:focus {
+  color: #ff992b;
   background-color: #333333;
   border-radius: 5px;
   padding: 5px;
@@ -99,7 +102,7 @@ nav {
 }
 
 header {
-  background-color: #FFA500;
+  background-color: #ff992b;
   top: 0;
   width: 100%;
   margin-bottom: 10px;
@@ -107,7 +110,7 @@ header {
 
 footer {
   margin-top: 10px;
-  background-color: #FFA500;
+  background-color: #ff992b;
   width: 100%;
 }
 
