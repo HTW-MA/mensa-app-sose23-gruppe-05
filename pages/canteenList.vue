@@ -1,22 +1,22 @@
 <template>
-    <div>
-        <div class="filter-container">
-            <input type="text" v-model="filterText" placeholder="Kantine suchen">
-        </div>
-        <div class="canteen-container">
-            <div v-for="canteen in filteredCanteens" class="canteen-item" style="border: 1px solid black; margin: 10px">
-                <span style="font-weight: bold">{{ canteen.name }}</span>
-                <div></div>
-                <span>{{ canteen.address.street + ', ' + canteen.address.zipcode + ' ' + canteen.address.city }}</span>
-                <div></div>
-                <span v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
-                <span v-else>keine Öffnungszeiten vorhanden</span>
-                <div></div>
-                <span v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
-                <span v-else>kein Mittagstisch</span>
-            </div>
-        </div>
+  <div>
+    <div class="filter-container">
+      <input type="text" v-model="filterText" placeholder="Kantine suchen">
     </div>
+    <div class="canteen-container">
+      <div v-for="canteen in filteredCanteens" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
+        <span style="font-weight: bold">{{ canteen.name }}</span>
+        <div></div>
+        <span>{{ canteen.address.street + ', ' + canteen.address.zipcode + ' ' + canteen.address.city }}</span>
+        <div></div>
+        <span v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
+        <span v-else>keine Öffnungszeiten vorhanden</span>
+        <div></div>
+        <span v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
+        <div class="arrow">&#10095;</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -97,4 +97,11 @@ export default {
 .canteen-item {
     position: relative;
 }
+.arrow {
+  margin-right: 20px;
+  font-size: 40px; /* Adjust the size as per your requirement */
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);}
 </style>
