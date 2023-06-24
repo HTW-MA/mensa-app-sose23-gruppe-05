@@ -94,7 +94,7 @@ export default {
       localStorage.setItem('favoriteCanteen', this.canteen);
       localStorage.setItem('hasVisited', true);
       localStorage.setItem('favoriteCanteenId',favCanteenId );
-      return navigateTo('canteens/' + favCanteenId)
+      navigateTo('canteens/' + favCanteenId)
     }
 
   },

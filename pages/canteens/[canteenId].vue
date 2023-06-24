@@ -68,9 +68,6 @@
     </div>
   </div>
   </div>
-  <div v-else>
-    --- keine Lieblingskantine ausgewählt ---
-  </div>
 </template>
 
 <script lang="ts">
