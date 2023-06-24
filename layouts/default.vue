@@ -37,7 +37,7 @@ export default {
   name: 'DefaultLayout',
   methods: {
     navigateToFavorites() {
-      const favorites = localStorage.getItem('favourites');
+      const favorites = localStorage.getItem('favoriteCanteenId');
           this.$router.push(`/canteens/${favorites}`);
 
     },

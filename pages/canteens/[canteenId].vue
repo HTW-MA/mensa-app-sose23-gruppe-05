@@ -101,7 +101,7 @@ export default {
           .then(data => {
             this.menuItems = data;
             console.log(data);})
-      this.favourites = localStorage.getItem('favourites') || '';
+      this.favourites = localStorage.getItem('favoriteCanteenId') || '';
       this.isFavourite = this.favourites.includes(this.canteenId);
     },
   methods: {
@@ -189,16 +189,16 @@ export default {
     },
     toggleFavourite() {
       const canteenId = this.canteen.id;
-      let existingFavorites = localStorage.getItem('favourites') || '';
+      let existingFavorites = localStorage.getItem('favoriteCanteenId') || '';
 
       if (existingFavorites !== canteenId) {
         // Replace existing favorite with new canteen ID
         existingFavorites = canteenId;
-        localStorage.setItem('favourites', existingFavorites);
+        localStorage.setItem('favoriteCanteenId', existingFavorites);
       } else {
         // Remove favorite if it's already the same
         existingFavorites = '';
-        localStorage.removeItem('favourites');
+        localStorage.removeItem('favoriteCanteenId');
       }
 
       this.checkFavorite();
@@ -208,7 +208,7 @@ export default {
     checkFavorite() {
       const canteenId = this.canteen.id;
       let existingFavorites;
-        existingFavorites = localStorage.getItem('favourites') || '';
+        existingFavorites = localStorage.getItem('favoriteCanteenId') || '';
         this.isFavourite = existingFavorites.includes(canteenId);
 
     },
