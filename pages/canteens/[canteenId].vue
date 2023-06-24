@@ -68,6 +68,9 @@
     </div>
   </div>
   </div>
+  <div>
+    --- keine Lieblingskantine ausgewählt ---
+  </div>
 </template>
 
 <script lang="ts">

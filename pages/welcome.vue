@@ -41,6 +41,7 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
+import {navigateTo} from "#app";
 
 export default {
   name: 'WelcomePage',
@@ -87,13 +88,13 @@ export default {
         alert('Bitte wähle eine Mensa aus!');
         return;
       }
+      const favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
 
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('favoriteCanteen', this.canteen);
       localStorage.setItem('hasVisited', true);
-      localStorage.setItem('favoriteCanteenId', this.filteredResults.find(canteen => canteen.name === this.canteen).id);
-      const router = useRouter();
-      router.push('/');
+      localStorage.setItem('favoriteCanteenId',favCanteenId );
+      return navigateTo('canteens/' + favCanteenId)
     }
 
   },

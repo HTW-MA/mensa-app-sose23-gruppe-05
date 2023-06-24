@@ -5,8 +5,9 @@
     </div>
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
-        <i v-if="!canteenIsFavorite(canteen)" class="bi bi-star" style="margin-right: 5px"></i>
-        <i v-if="canteenIsFavorite(canteen)" class="bi bi-star-fill" style="margin-right: 5px"></i>
+        <Icon v-if="!canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star-border" color="black" size="20" />
+        <Icon v-if="canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star" color="black" size="20" />
+
         <span style="font-weight: bold">{{ canteen.name }}</span>
         <div></div>
         <span>{{ canteen.address.street + ', ' + canteen.address.zipcode + ' ' + canteen.address.city }}</span>
