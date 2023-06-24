@@ -2,10 +2,10 @@
   <div class="container">
     <header>
       <div>
-        <nav class="navbar navbar-light" style="background-color: white;font-family: Comme;">
+        <nav class="navbar navbar-light" style="background-color: white; font-family: Comme;">
           <div class="container-fluid" id="logo1">
             <a class="navbar-brand">
-              <img src="../assets/logo.png" alt="logo" style="height: 50px;width: auto;margin: 10px;" class="">
+              <img src="../assets/logo.png" alt="logo" style="height: 50px; width: auto; margin: 10px;" class="">
             </a>
           </div>
         </nav>
@@ -17,12 +17,15 @@
     <footer>
       <div class="wrapper">
         <nav>
-          <div class="nav-connected">
-            <NuxtLink class="link" to="/x1">Nav1</NuxtLink>
-            <NuxtLink class="link" to="/">Home</NuxtLink>
-            <NuxtLink class="link" to="/canteenList">List</NuxtLink>
-            <NuxtLink class="link" to="/canteenDetails">Details</NuxtLink>
-          </div>
+          <NuxtLink class="link" to="/canteenList">
+            <Icon class="icon" name="ic:baseline-format-list-bulleted" color="black" size="50px"/>
+          </NuxtLink>
+          <NuxtLink class="link" to="/">
+            <Icon class="icon" name="ic:baseline-home" color="black" size="50px" />
+          </NuxtLink>
+          <NuxtLink class="link" @click="navigateToFavorites()">
+            <Icon class="icon" name="ic:baseline-favorite" color="black" size="50px"/>
+          </NuxtLink>
         </nav>
       </div>
     </footer>
@@ -30,12 +33,18 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'DefaultLayout',
-}
+  methods: {
+    navigateToFavorites() {
+      const favorites = localStorage.getItem('favourites');
+          this.$router.push(`/canteens/${favorites}`);
+
+    },
+  },
+};
 </script>
+
 
 <style>
 .container {
@@ -50,56 +59,39 @@ main {
 }
 
 nav {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   background-color: #ff992b;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-.nav-connected {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .link {
-  text-decoration: none;
-  font-size: 24px;
-  color: #333333;
   transition: 0.4s;
   padding: 5px;
-  box-sizing: border-box;
-}
-
-.logo {
-  margin-right: 5px;
 }
 
 .link:hover,
 .link:active,
 .link:focus {
-  color: #ff992b;
-  background-color: #333333;
   border-radius: 5px;
   padding: 5px;
 }
 
-.logo {
-  max-width: 75px;
+.icon path {
+  transition: 0.4s;
 }
 
-.welcome-text {
-  font-size: 26px;
-  font-family: Pacifico;
-  font-weight: 300;
-  text-align: center;
+.link:hover .icon path,
+.link:active .icon path,
+.link:focus .icon path {
+  fill: #d9480f;
+  width: 100px;
 }
 
-.welcome-text:hover {
-  cursor: default;
-}
 
 header {
   background-color: #ff992b;
@@ -114,16 +106,4 @@ footer {
   width: 100%;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-}
-
-footer nav {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: 1fr;
-  align-items: center;
-}
 </style>
