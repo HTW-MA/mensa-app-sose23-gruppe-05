@@ -63,7 +63,7 @@ nav {
   display: flex;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr;
-  background-color: #ff992b;
+  background-color: white;
   align-items: center;
   justify-content: space-evenly;
   align-items: center;

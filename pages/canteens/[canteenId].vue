@@ -53,7 +53,8 @@
             <div class="menu-item" v-for="meal in item.meals" :key="meal.id">
              <h3>{{ meal.category }}</h3>
               <p><b>{{ meal.name }}</b></p>
-              <p class="additives">Zusatzstoffe: {{ getAdditivesText(meal.additives) }}</p>
+              <p v-if="getAdditivesText(meal.additives)" class="additives">Zusatzstoffe: {{ getAdditivesText(meal.additives) }}</p>
+              <p v-else class="additives">Zusatzstoffe: Keine Info</p>
               <div class="price-logos">
               <div v-for="price in meal.prices" :key="price.priceType">
                 <p v-if="price.priceType ==='Studierende'"> <Icon class="icon" name="ic:baseline-school" color="black" size="22px" /> {{ price.price }}€</p>
@@ -244,6 +245,7 @@ export default {
 
 
 <style scoped>
+
 .container {
   width: 90%;
   margin: 0 auto;
@@ -274,9 +276,10 @@ export default {
 
 .menu-item {
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   background-color: #ff992b;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .adress, .time {
@@ -295,12 +298,27 @@ export default {
 
 .toggle-date, .filter-button {
   background-color: #ff992b;
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 2px 12px;
-  border-radius: 5px;
+  padding: 5px 20px;
   cursor: pointer;
   transition: 0.4s;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+  margin: 2px 2px;
+}
+
+.toggle-date {
+  padding: 8px 30px;
+}
+
+.filter {
+}
+
+.button-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .disabled {
@@ -315,9 +333,10 @@ p {
 
 .price-logos {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
   margin-top: 10px;
+}
+.price-logos p {
+  margin-right: 5px;
 }
 
 .filter-button.active,
