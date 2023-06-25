@@ -7,16 +7,16 @@
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
         <Icon v-if="!canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star-border" color="black" size="20" />
         <Icon v-if="canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star" color="black" size="20" />
-
         <span style="font-weight: bold">{{ canteen.name }}</span>
         <div></div>
         <span>{{ canteen.address.street + ', ' + canteen.address.zipcode + ' ' + canteen.address.city }}</span>
         <div></div>
         <span v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
-        <span v-else>keine Öffnungszeiten vorhanden</span>
         <div></div>
         <span v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
+        <span v-if="!hasOpeningHours(canteen, 'Mittagstisch') && !hasOpeningHours(canteen, 'Mensa')">geschlossen</span>
         <div class="arrow">&#10095;</div>
+
       </div>
     </div>
   </div>

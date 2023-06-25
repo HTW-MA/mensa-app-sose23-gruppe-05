@@ -2,6 +2,11 @@
 
 
 export default defineNuxtConfig({
+    runtimeConfig: {
+        public: {
+            apiKey: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
+        }
+    },
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
 
