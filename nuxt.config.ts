@@ -29,10 +29,10 @@ export default defineNuxtConfig({
         registerType: 'autoUpdate',
         manifest: {
             theme_color: '#ff992b',
-            name: 'Nuxt Vite PWA',
-            short_name: 'NuxtVitePWA',
+            name: 'MensaMania',
+            short_name: 'MM',
             start_url: '/welcome',
-            lang: 'en',
+            lang: 'de',
             icons: [
                 {
                     src: 'icons/icon16x16.png',
