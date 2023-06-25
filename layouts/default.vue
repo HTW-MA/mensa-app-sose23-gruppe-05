@@ -78,6 +78,9 @@ nav {
   margin-bottom: 15px;
 }
 
+:root {
+  touch-action: manipulation;
+}
 
 .link {
   transition: 0.4s;
