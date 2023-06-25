@@ -31,8 +31,10 @@
       <h2>Menü</h2>
       <div class="button-date">
         <button class="toggle-date" :class="{ disabled: isFirstDay }" @click="toggleDate(false)">-</button>
+        <div class="day-date">
         <span class="day"> {{ day }} </span>
         <span> {{ selectedDateString.slice(5,10) }} </span>
+        </div>
         <button class="toggle-date" :class="{ disabled: isLastDay }" @click="toggleDate(true)">+</button>
       </div>
       <div class="filter">
@@ -297,6 +299,7 @@ export default {
 }
 
 .toggle-date, .filter-button {
+  color: black;
   background-color: #ff992b;
   border: 1px solid #ddd;
   border-radius: 5px;
