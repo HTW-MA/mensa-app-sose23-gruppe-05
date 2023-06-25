@@ -9,7 +9,8 @@
         <Icon v-if="canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star" color="black" size="20" />
         <span style="font-weight: bold">{{ canteen.name }}</span>
         <div></div>
-        <span>{{ canteen.address.street + ', ' + canteen.address.zipcode + ' ' + canteen.address.city }}</span>
+        <div>{{ canteen.address.street}}</div>
+        <div>{{canteen.address.zipcode + ' ' + canteen.address.city }}</div>
         <div></div>
         <span v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
         <div></div>
