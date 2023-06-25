@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         manifest: {
             theme_color: '#ff992b',
             name: 'MensaMania',
-            short_name: 'MM',
+            short_name: 'MensaMania',
             start_url: '/welcome',
             lang: 'de',
             icons: [
