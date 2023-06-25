@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+
 export default defineNuxtConfig({
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
@@ -24,9 +26,66 @@ export default defineNuxtConfig({
 
     // PWA module configuration: https://go.nuxtjs.dev/pwa
     pwa: {
+        registerType: 'autoUpdate',
         manifest: {
-            lang: 'en'
-        }
+            theme_color: '#ff992b',
+            name: 'Nuxt Vite PWA',
+            short_name: 'NuxtVitePWA',
+            start_url: '/welcome',
+            lang: 'en',
+            icons: [
+                {
+                    src: 'icons/icon16x16.png',
+                    sizes: '16x16',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon32x32.png',
+                    sizes: '32x32',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon64x64.png',
+                    sizes: '64x64',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon128x128.png',
+                    sizes: '128x128',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon144x144.png',
+                    sizes: '144x144',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon256x256.png',
+                    sizes: '256x256',
+                    type: 'image/png',
+                },
+                {
+                    src: 'icons/icon512x512.png',
+                    sizes: '512x512',
+                    type: 'image/png',
+                    purpose: 'any maskable',
+                }
+            ],
+        },
+        workbox: {
+            navigateFallback: '/',
+            globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+        },
+        client: {
+            installPrompt: true,
+            periodicSyncForUpdates: 20,
+        },
+        devOptions: {
+            enabled: true,
+            suppressWarnings: true,
+            navigateFallbackAllowlist: [/^\/$/],
+            type: 'module',
+        },
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
