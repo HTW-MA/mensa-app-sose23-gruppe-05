@@ -59,6 +59,14 @@ main {
   overflow-y: auto;
 }
 
+main::-webkit-scrollbar {
+  display: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
 nav {
   display: flex;
   grid-template-columns: 1fr 1fr 1fr;
@@ -67,6 +75,7 @@ nav {
   align-items: center;
   justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 
@@ -95,15 +104,18 @@ nav {
 
 
 header {
-  background-color: #ff992b;
   top: 0;
   width: 100%;
   margin-bottom: 10px;
 }
 
+main {
+  margin-bottom: 10px;
+}
+
+
 footer {
   margin-top: 10px;
-  background-color: #ff992b;
   width: 100%;
 }
 
