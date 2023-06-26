@@ -13,7 +13,8 @@ export default defineNuxtConfig({
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         '@/assets/app.css',
-        'bootstrap/dist/css/bootstrap.min.css'
+        'bootstrap/dist/css/bootstrap.min.css',
+        'leaflet/dist/leaflet.css'
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
