@@ -1,20 +1,19 @@
 <template>
   <div>
     <div class="filter-container">
-      <input class="form-control" type="text" v-model="filterText" placeholder="Kantine suchen">
+      <input class="form-control" type="text" v-model="filterText" placeholder="Mensa suchen">
     </div>
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
-        <Icon v-if="!canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star-border" color="black" size="20" />
-        <Icon v-if="canteenIsFavorite(canteen)" class="icon" name="ic:baseline-star" color="black" size="20" />
-        <span style="font-weight: bold">{{ canteen.name }}</span>
+        <Icon v-if="canteenIsFavorite(canteen)" class="icon star-icon" name="ic:baseline-star" color="#d9480f" size="30" />
+        <h5 style="font-weight: bold">{{ canteen.name }}</h5>
         <div></div>
         <div>{{ canteen.address.street}}</div>
         <div>{{canteen.address.zipcode + ' ' + canteen.address.city }}</div>
         <div></div>
-        <span v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
+        <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
         <div></div>
-        <span v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
+        <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
         <span v-if="!hasOpeningHours(canteen, 'Mittagstisch') && !hasOpeningHours(canteen, 'Mensa')">geschlossen</span>
         <div class="arrow">&#10095;</div>
 
@@ -100,6 +99,15 @@ export default {
 </script>
 
 <style scoped>
+
+.star-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 15px;
+  margin-top: 15px;
+}
+
 .filter-container {
   position: sticky;
   top: 0;
@@ -114,6 +122,12 @@ export default {
 
 .canteen-item {
   position: relative;
+  border: 1px solid #ddd;
+  padding: 15px;
+  padding-left: 30px; /* Added to ensure the text does not overlap with the star icon */
+  border-radius: 5px;
+  background-color: #ff992b;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
 }
 .arrow {
   margin-right: 20px;

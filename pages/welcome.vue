@@ -6,7 +6,7 @@
         <div class="mb-3">
           <label for="searchField" class="form-label" style="font-weight: bold; color: #555;">Lieblingsmensa:</label>
           <input className="canteenSearch" type="text" id="canteenSearch" class="form-control equal-width"
-            v-model="canteen" placeholder="Suche deine Liebslingsmensa" style="background-color: #ffffff;"
+            v-model="canteen" placeholder="Suche deine Lieblingsmensa" style="background-color: #ffffff;"
             @input="searchCanteen" >
         </div>
         <ul class="list-group" v-if="showResults===true">
