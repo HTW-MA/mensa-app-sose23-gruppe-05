@@ -95,18 +95,27 @@ export default {
       day: '',
     }
   },
-    mounted() {
-      // Fetch canteen data from API
-      RestClient.getCanteenById(this.canteenId).then(data => {this.canteen = data[0]; console.log(data[0])})
-      // Fetch menu data from API
-      this.calculateDates();
-      RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate,this.endDate)
-          .then(data => {
-            this.menuItems = data;
-            console.log(data);})
-      this.favourites = localStorage.getItem('favoriteCanteenId') || '';
-      this.isFavourite = this.favourites.includes(this.canteenId);
-    },
+  mounted() {
+    // Fetch canteen data from API
+    RestClient.getCanteenById(this.canteenId)
+        .then(data => {
+          this.canteen = data[0];
+          console.log(data[0]);
+        });
+
+    // Fetch menu data from API
+    this.calculateDates();
+    RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
+        .then(data => {
+          this.menuItems = data;
+          console.log(data);
+          this.filterMenu(); // Filter and display the menu
+        });
+
+    this.favourites = localStorage.getItem('favoriteCanteenId') || '';
+    this.isFavourite = this.favourites.includes(this.canteenId);
+  },
+
   methods: {
     getFilteredPrices(prices) {
       if (this.role === 'student') {
