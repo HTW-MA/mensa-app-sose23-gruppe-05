@@ -6,21 +6,21 @@
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
         <Icon v-if="canteenIsFavorite(canteen)" class="icon star-icon" name="ic:baseline-star" color="#d9480f" size="30" />
-        <h5 style="font-weight: bold">{{ canteen.name }}</h5>
-        <div></div>
-        <div>{{ canteen.address.street}}</div>
-        <div>{{canteen.address.zipcode + ' ' + canteen.address.city }}</div>
-        <div></div>
-        <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
-        <div></div>
-        <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
-        <span v-if="!hasOpeningHours(canteen, 'Mittagstisch') && !hasOpeningHours(canteen, 'Mensa')">geschlossen</span>
+        <div class="text-container">
+          <h5 style="font-weight: bold">{{ canteen.name }}</h5>
+          <div>{{ canteen.address.street}}</div>
+          <div>{{canteen.address.zipcode + ' ' + canteen.address.city }}</div>
+          <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mensa')">{{ getOpeningHours(canteen, 'Mensa') }}</span>
+          <div></div>
+          <span style="font-weight: bold" v-if="hasOpeningHours(canteen, 'Mittagstisch')">{{ getOpeningHours(canteen, 'Mittagstisch') }}</span>
+          <span v-if="!hasOpeningHours(canteen, 'Mittagstisch') && !hasOpeningHours(canteen, 'Mensa')">geschlossen</span>
+        </div>
         <div class="arrow">&#10095;</div>
-
       </div>
     </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { RestClient } from '~/services/RestClient'
@@ -99,6 +99,9 @@ export default {
 </script>
 
 <style scoped>
+.text-container {
+  padding-right: 40px; /* 30px of icon size + 10px of extra space */
+}
 
 .star-icon {
   position: absolute;
