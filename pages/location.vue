@@ -78,16 +78,13 @@ function fitMapBounds() {
 onMounted(() => {
   RestClient.getAllCanteens().then(data => {
     allCanteens.value = data;
-    console.log("All canteens", allCanteens.value);
 
     // Loop through each canteen and add a marker for its geoLocation
     allCanteens.value.forEach(canteen => {
       const { geoLocation } = canteen.address;
-      console.log(geoLocation)
       if (geoLocation && geoLocation.latitude && geoLocation.longitude) {
         const { latitude, longitude } = geoLocation;
         addMarkerForCanteens([latitude, longitude], canteen);
-        console.log("Marker added for", canteen.name);
       }
     });
   });
