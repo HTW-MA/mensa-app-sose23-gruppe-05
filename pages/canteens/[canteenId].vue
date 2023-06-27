@@ -96,59 +96,25 @@ export default {
     }
   },
   mounted() {
-    // Fetch canteen data from cache or API
-    RestClient.getCachedData('canteen')
-        .then(cachedCanteens => {
-          if (cachedCanteens) {
-            // Data is available in the cache
-            this.canteen = cachedCanteens.find((canteen: any) => canteen.id === this.canteenId);
-            console.log(this.canteen);
-          } else {
-            // Data is not cached, fetch it from the API
-            RestClient.getCanteenById(this.canteenId)
-                .then(data => {
-                  this.canteen = data[0];
-                  console.log(data[0]);
-                })
-                .catch(error => {
-                  console.error('Error fetching canteen:', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('Error retrieving cached canteens:', error);
+    // Fetch canteen data from API
+    RestClient.getCanteenById(this.canteenId)
+        .then(data => {
+          this.canteen = data[0];
+          console.log(data[0]);
         });
 
-    // Fetch menu data from cache or API
+    // Fetch menu data from API
     this.calculateDates();
-    RestClient.getCachedData(`menue/${this.canteenId}`)
-        .then(cachedMenu => {
-          if (cachedMenu) {
-            // Data is available in the cache
-            this.menuItems = cachedMenu;
-            console.log(this.menuItems);
-            this.filterMenu(); // Filter and display the menu
-          } else {
-            // Data is not cached, fetch it from the API
-            RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
-                .then(data => {
-                  this.menuItems = data;
-                  console.log(data);
-                  this.filterMenu(); // Filter and display the menu
-                })
-                .catch(error => {
-                  console.error('Error fetching menu:', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('Error retrieving cached menu:', error);
+    RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
+        .then(data => {
+          this.menuItems = data;
+          console.log(data);
+          this.filterMenu(); // Filter and display the menu
         });
 
     this.favourites = localStorage.getItem('favoriteCanteenId') || '';
     this.isFavourite = this.favourites.includes(this.canteenId);
   },
-
 
   methods: {
     getFilteredPrices(prices) {

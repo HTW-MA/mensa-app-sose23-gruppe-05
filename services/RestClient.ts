@@ -1,4 +1,3 @@
-import { openDB } from 'idb';
 
 export class RestClient {
 
@@ -61,16 +60,6 @@ export class RestClient {
         }
         return await this.fetchFromApi(this.ENDPOINT_MENUE, params);
     }
-
-
-
-    static async getCachedData(endpoint: string) {
-        console.log("Getting cached data");
-        const db = await openDB('my-app-db', 1);
-        const data = await db.get('apiData', endpoint);
-        return data?.data || null;
-    }
-
 
 
 
