@@ -7,26 +7,41 @@
 </template>
 
 <script setup lang="ts">
-import L, { LatLngExpression, Marker, LatLngBounds } from 'leaflet';
+import L, {LatLngExpression, Marker, LatLngBounds, MarkerOptions} from 'leaflet';
 import { ref } from 'vue';
+import {RestClient} from "~/services/RestClient";
+import redMarker from '@/assets/marker-red.png';
 
-const latitude = 51.505;
-const longitude = -0.09;
+const allCanteens = ref([]);
+
+const latitude = 52.520008;
+const longitude = 13.404954;
 const zoomLevel = 13;
-
-const markerLat = 51.505;
-const markerLng = -0.09;
 
 let map: L.Map;
 let marker: Marker | null = null;
+const markers = [];
 const currentLocation = ref<LatLngExpression | null>(null);
+
+function addMarkerForCanteens(latlng: LatLngExpression) {
+  const marker = L.marker(latlng).addTo(map); // Create a new marker
+  markers.push(marker); // Add the marker to the array
+}
 
 function addMarker(latlng: LatLngExpression) {
   if (marker) {
     map.removeLayer(marker);
   }
-  marker = L.marker(latlng).addTo(map);
+
+  const redIcon = L.icon({
+    iconUrl: redMarker,
+    iconSize: [40, 40],
+    iconAnchor: [12, 41],
+  });
+
+  marker = L.marker(latlng, { icon: redIcon }).addTo(map);
 }
+
 
 function trackLocation() {
   if (navigator.geolocation) {
@@ -51,12 +66,28 @@ function fitMapBounds() {
 }
 
 onMounted(() => {
+  RestClient.getAllCanteens().then(data => {
+    allCanteens.value = data;
+    console.log("All canteens", allCanteens.value);
+
+    // Loop through each canteen and add a marker for its geoLocation
+    allCanteens.value.forEach(canteen => {
+      const { geoLocation } = canteen.address;
+      console.log(geoLocation)
+      if (geoLocation && geoLocation.latitude && geoLocation.longitude) {
+        const { latitude, longitude } = geoLocation;
+        addMarkerForCanteens([latitude, longitude]);
+        console.log("Marker added for", canteen.name);
+      }
+    });
+  });
+
   map = L.map('map').setView([latitude, longitude], zoomLevel);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  addMarker([markerLat, markerLng]);
+
 });
 </script>
 
