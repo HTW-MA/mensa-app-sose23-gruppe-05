@@ -33,10 +33,26 @@ export default {
     }
   },
   mounted() {
-    RestClient.getAllCanteens().then(data => {
-      this.allCanteens = data;
-    });
+    RestClient.getCachedData('canteen')
+        .then(cachedData => {
+          if (cachedData) {
+            this.allCanteens = cachedData;
+          } else {
+            // Data is not cached, fetch it from the API
+            RestClient.getAllCanteens()
+                .then(data => {
+                  this.allCanteens = data;
+                })
+                .catch(error => {
+                  console.error('Error fetching canteens:', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('Error retrieving cached canteens:', error);
+        });
   },
+
   computed: {
     filteredCanteens() {
       const filter = this.filterText.trim().toLowerCase();
