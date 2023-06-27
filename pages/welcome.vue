@@ -22,7 +22,7 @@
           <label for="roleSelect" class="form-label" style="font-weight: bold; color: #555;">Rolle:</label>
           <select className="roleSelect" id="roleSelect" class="form-select equal-width" v-model="selectedRole"
             style="background-color: #ffffff;" placeholder="Wähle eine Rolle">
-            <option value="" style="color: #555;">Wähle eine Rolle</option>
+            <option value="" disabled style="color: #555;">Wähle eine Rolle...</option>
             <option value="student" style="color: #555;">Student</option>
             <option value="employee" style="color: #555;">Angestellter</option>
             <option value="guest" style="color: #555;">Gast</option>
