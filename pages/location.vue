@@ -25,6 +25,7 @@ let marker: Marker | null = null;
 const markers: Marker[] = [];
 const currentLocation = ref<LatLngExpression | null>(null);
 
+
 function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
   const blueIcon = L.icon({
     iconUrl: orangeMarker,
@@ -36,13 +37,24 @@ function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
   marker.bindPopup(`
     <div style="display: flex; flex-direction: column; align-items: center;">
       <strong>${canteen.name}</strong>
-      <button style="border: 1px solid #ddd; background-color: #ff992b; margin-top: 5px;"
-        onclick="window.location.href = 'canteens/${canteen.id}'">Show Menue</button>
+      <button style="border: 1px solid #ddd; background-color: #ff992b; margin-top: 5px;  border-radius: 5px;">Show Menu</button>
     </div>
   `); // Set the popup content with the styled button
   markers.push(marker); // Add the marker to the array
+
+  marker.on('popupopen', () => {
+    const popupButton = document.querySelector('.leaflet-popup-content button');
+    if (popupButton) {
+      popupButton.addEventListener('click', () => navigateToCanteen(canteen.id));
+    }
+  });
 }
 
+function navigateToCanteen(canteenId: string) {
+  console.log(canteenId)
+  const router = useRouter();
+  router.push(`/canteens/${canteenId}`);
+}
 
 
 function addMarker(latlng: LatLngExpression) {
@@ -85,7 +97,6 @@ function fitMapBounds() {
     map.fitBounds(bounds);
   }
 }
-
 
 onMounted(() => {
   RestClient.getAllCanteens().then(data => {
