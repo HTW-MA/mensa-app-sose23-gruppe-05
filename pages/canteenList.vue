@@ -5,7 +5,7 @@
     </div>
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
-        <Icon v-if="canteenIsFavorite(canteen)" class="icon star-icon" name="ic:baseline-star" color="#d9480f" size="30" />
+        <Icon v-if="canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite" color="#d9480f" size="30" />
         <div class="text-container">
           <h5 style="font-weight: bold">{{ canteen.name }}</h5>
           <div>{{ canteen.address.street}}</div>
@@ -103,7 +103,7 @@ export default {
   padding-right: 40px; /* 30px of icon size + 10px of extra space */
 }
 
-.star-icon {
+.favorite-icon {
   position: absolute;
   top: 0;
   right: 0;
