@@ -2,7 +2,7 @@
   <div>
     <h3>Location</h3>
     <div id="map" style="height: 400px;"></div>
-    <button @click="trackLocation">Share Location</button>
+    <button class="share-button" @click="trackLocation">Share my Location</button>
   </div>
 </template>
 
@@ -12,12 +12,13 @@ import { ref } from 'vue';
 import { RestClient } from "~/services/RestClient";
 import redMarker from '@/assets/marker-red.png';
 import blueMarker from '@/assets/marker-blue.png';
+import orangeMarker from '@/assets/marker-orange.png';
 
 const allCanteens = ref([]);
 
 const latitude = 52.520008;
 const longitude = 13.404954;
-const zoomLevel = 13;
+const zoomLevel = 10;
 
 let map: L.Map;
 let marker: Marker | null = null;
@@ -26,15 +27,23 @@ const currentLocation = ref<LatLngExpression | null>(null);
 
 function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
   const blueIcon = L.icon({
-    iconUrl: blueMarker,
+    iconUrl: orangeMarker,
     iconSize: [40, 40],
     iconAnchor: [20, 20],
-  }
-  )
-  const marker = L.marker(latlng, {icon: blueIcon}).addTo(map); // Create a new marker
-  marker.bindPopup(`<strong>${canteen.name}</strong>`);// Set the popup content
+  });
+
+  const marker = L.marker(latlng, { icon: blueIcon }).addTo(map); // Create a new marker
+  marker.bindPopup(`
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <strong>${canteen.name}</strong>
+      <button style="border: 1px solid #ddd; background-color: #ff992b; margin-top: 5px;"
+        onclick="window.location.href = 'canteens/${canteen.id}'">Show Menue</button>
+    </div>
+  `); // Set the popup content with the styled button
   markers.push(marker); // Add the marker to the array
 }
+
+
 
 function addMarker(latlng: LatLngExpression) {
   if (marker) {
@@ -74,7 +83,6 @@ function fitMapBounds() {
 }
 
 
-
 onMounted(() => {
   RestClient.getAllCanteens().then(data => {
     allCanteens.value = data;
@@ -93,8 +101,19 @@ onMounted(() => {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
+
 });
 </script>
 
 <style scoped>
+
+.share-button {
+  border: 1px solid #ddd;
+  background-color: #ff992b;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 </style>

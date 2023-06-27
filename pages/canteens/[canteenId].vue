@@ -134,7 +134,7 @@ export default {
     // Calculate dates for API call (today + 7 days)
     calculateDates() {
       const dateToday = new Date();
-      const dateSevenDaysAfter = new Date(dateToday.getTime() + (7 * 24 * 60 * 60 * 1000));
+      const dateSevenDaysAfter = new Date(dateToday.getTime() + (14 * 24 * 60 * 60 * 1000));
       this.startDate = dateToday.toISOString().slice(0,10);
       this.selectedDate = dateToday
       this.selectedDateString = dateToday.toISOString().slice(0,10);
