@@ -66,12 +66,16 @@ function trackLocation() {
       const { latitude, longitude } = position.coords;
       currentLocation.value = [latitude, longitude];
       addMarker([latitude, longitude]);
-      fitMapBounds();
+
+      // Fly to the marker's spot with a slightly increased zoom level
+      const zoomLevel = map.getZoom() + 1; // Increase the zoom level by 1
+      map.flyTo(new L.LatLng(latitude, longitude), zoomLevel);
     });
   } else {
     console.log('Geolocation is not supported by this browser.');
   }
 }
+
 
 function fitMapBounds() {
   const markerLatLng = marker?.getLatLng();
