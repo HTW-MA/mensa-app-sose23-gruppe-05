@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <meta name="theme-color" content="#ff992b">
+  </head>
   <div>
     <VitePwaManifest />
     <NuxtLayout />
