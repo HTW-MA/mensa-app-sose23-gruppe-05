@@ -5,13 +5,13 @@
       <h3>{{canteen.name}}</h3>
       <Icon
           v-if="!isFavourite"
-          name="ic:baseline-star-outline"
+          name="ic:baseline-favorite-border"
           size="50px"
           @click="toggleFavourite"
       ></Icon>
       <Icon
           v-else
-          name="ic:baseline-star-rate"
+          name="ic:baseline-favorite"
           size="50px"
           color="#d9480f"
           @click="toggleFavourite"
@@ -257,10 +257,7 @@ export default {
 
 <style scoped>
 
-.container {
-  width: 90%;
-  margin: 0 auto;
-}
+
 
 .canteen-header {
   display: flex;
