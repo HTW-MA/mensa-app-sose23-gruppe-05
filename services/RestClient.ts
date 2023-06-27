@@ -41,8 +41,21 @@ export class RestClient {
         return await this.fetchFromApi(this.ENDPOINT_CANTEEN, params);
     }
 
-    static async getAllCanteens() {
+    private static async fetchAllCanteens() {
         return await this.fetchFromApi(this.ENDPOINT_CANTEEN);
+    }
+
+    static async getAllCanteens() {
+
+        let canteens = localStorage.getItem('canteens');
+
+        if (canteens) {
+            return Promise.resolve(JSON.parse(canteens));
+        } else {
+            const fetchedCanteens = await this.fetchAllCanteens();
+            localStorage.setItem('canteens', JSON.stringify(fetchedCanteens));
+            return fetchedCanteens;
+        }
     }
 
     static async getMealById(mealId: string) {
