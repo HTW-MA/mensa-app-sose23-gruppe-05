@@ -7,10 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import L, {LatLngExpression, Marker, LatLngBounds, MarkerOptions} from 'leaflet';
+import L, { LatLngExpression, Marker } from 'leaflet';
 import { ref } from 'vue';
-import {RestClient} from "~/services/RestClient";
+import { RestClient } from "~/services/RestClient";
 import redMarker from '@/assets/marker-red.png';
+import blueMarker from '@/assets/marker-blue.png';
 
 const allCanteens = ref([]);
 
@@ -20,11 +21,18 @@ const zoomLevel = 13;
 
 let map: L.Map;
 let marker: Marker | null = null;
-const markers = [];
+const markers: Marker[] = [];
 const currentLocation = ref<LatLngExpression | null>(null);
 
-function addMarkerForCanteens(latlng: LatLngExpression) {
-  const marker = L.marker(latlng).addTo(map); // Create a new marker
+function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
+  const blueIcon = L.icon({
+    iconUrl: blueMarker,
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+  }
+  )
+  const marker = L.marker(latlng, {icon: blueIcon}).addTo(map); // Create a new marker
+  marker.bindPopup(`<strong>${canteen.name}</strong>`);// Set the popup content
   markers.push(marker); // Add the marker to the array
 }
 
@@ -36,12 +44,12 @@ function addMarker(latlng: LatLngExpression) {
   const redIcon = L.icon({
     iconUrl: redMarker,
     iconSize: [40, 40],
-    iconAnchor: [12, 41],
+    iconAnchor: [20, 20],
   });
 
   marker = L.marker(latlng, { icon: redIcon }).addTo(map);
+  marker.bindPopup(`<strong>${"Your location"}</strong>`);// Set the popup content
 }
-
 
 function trackLocation() {
   if (navigator.geolocation) {
@@ -65,6 +73,8 @@ function fitMapBounds() {
   }
 }
 
+
+
 onMounted(() => {
   RestClient.getAllCanteens().then(data => {
     allCanteens.value = data;
@@ -76,7 +86,7 @@ onMounted(() => {
       console.log(geoLocation)
       if (geoLocation && geoLocation.latitude && geoLocation.longitude) {
         const { latitude, longitude } = geoLocation;
-        addMarkerForCanteens([latitude, longitude]);
+        addMarkerForCanteens([latitude, longitude], canteen);
         console.log("Marker added for", canteen.name);
       }
     });
@@ -86,8 +96,6 @@ onMounted(() => {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
-
-
 });
 </script>
 
