@@ -59,9 +59,9 @@
               <p v-else class="additives">Zusatzstoffe: Keine Info</p>
               <div class="price-logos">
               <div v-for="price in meal.prices" :key="price.priceType">
-                <p v-if="price.priceType ==='Studierende'"> <Icon class="icon" name="ic:baseline-school" color="black" size="22px" /> {{ price.price }}€</p>
-                <p v-else-if="price.priceType ==='Angestellte'"> <Icon class="icon" name="ic:baseline-work" color="black" size="22px" /> {{ price.price }}€</p>
-                <p v-else-if="price.priceType ==='Gäste'"> <Icon class="icon" name="ic:baseline-man" color="black" size="24px" /> {{ price.price }}€</p>
+                <p v-if="price.priceType ==='Studierende' && userRole === 'student'"> <Icon class="icon" name="ic:baseline-school" color="black" size="22px" /> {{ price.price }}€</p>
+                <p v-else-if="price.priceType ==='Angestellte' && userRole === 'employee'"> <Icon class="icon" name="ic:baseline-work" color="black" size="22px" /> {{ price.price }}€</p>
+                <p v-else-if="price.priceType ==='Gäste' && userRole === 'guest'"> <Icon class="icon" name="ic:baseline-man" color="black" size="24px" /> {{ price.price }}€</p>
               </div>
               </div>
             </div>
@@ -93,6 +93,7 @@ export default {
       selectedDateString: '',
       selectedDate: new Date(),
       day: '',
+      userRole: localStorage.getItem('userRole')
     }
   },
   mounted() {
