@@ -5,7 +5,7 @@
         <nav class="navbar navbar-light" style="background-color: white; font-family: Comme;">
           <div class="container-fluid" id="logo1">
             <a class="navbar-brand">
-              <img src="../assets/logo.png" alt="logo" style="height: 50px; width: auto; margin: 10px;" class="">
+              <img src="../assets/logo.png" alt="logo" style="height: 50px; width: auto; margin: 10px;" class="" @click="navigateToFavorites">
             </a>
             <NuxtLink class="link" to="/settings" style="width: auto; margin: 10px; float: right;">
               <Icon class="icon" name="ic:round-settings" color="black" size="30px" />
