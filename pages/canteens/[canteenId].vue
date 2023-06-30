@@ -101,7 +101,6 @@ export default {
     RestClient.getCanteenById(this.canteenId)
         .then(data => {
           this.canteen = data[0];
-          console.log(data[0]);
         });
 
     // Fetch menu data from API
@@ -109,7 +108,6 @@ export default {
     RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
         .then(data => {
           this.menuItems = data;
-          console.log(data);
           this.filterMenu(); // Filter and display the menu
         });
 
@@ -153,11 +151,6 @@ export default {
     },
     filterMenu() {
       this.menuToDay = this.menuItems.filter(item => item.date === this.selectedDateString);
-      console.log("menuItems", this.menuItems.filter(item => item.date === this.selectedDateString))
-      console.log("menuToDay", this.menuToDay[0].meals)
-      console.log("menuToDay", this.menuToDay[0].meals[0])
-      console.log("menuToDay", this.menuToDay); // Output the menuToDay object
-
     },
 
     getOpeningHours() {

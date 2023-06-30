@@ -1,16 +1,16 @@
 
 export class RestClient {
 
-    private static BASE_URL: string ="https://mensa.projekt-ipa.tech/api/v1/"
-    private static ENDPOINT_CANTEEN: string = "canteen"
-    private static ENDPOINT_MEAL: string = "meal"
-    private static ENDPOINT_MENUE: string = "menue"
-    private static API_KEY: string;
+     static BASE_URL: string ="https://mensa.projekt-ipa.tech/api/v1/"
+     static ENDPOINT_CANTEEN: string = "canteen"
+     static ENDPOINT_MEAL: string = "meal"
+     static ENDPOINT_MENUE: string = "menue"
+     static API_KEY: string = "IxzGn/rZqdwcAEWYiRh7d6+goi+8IjQiwJXNuXcCqcxCF80yUjGYFpjtYhlJZ1mSpermRXL7Iz6jarukJxGsbTpBXfWNAx79H2iDMyWed/zlilSwJ87mI6jMViiYVxzwZJvNo8CptnSn/ECXtJIpcD8tj51fLaydAigxeqz0Vgy1MMs4wV6zX8x62iFP8nN7+B3fIfYHj+73aCM1e9Mqv3oIHIwbZTMK84KeAeMDq/5zL8NaWXOrDlvmmCi04DV9V7d7FPlEVbNeBCsjQOUIOdhbq+3z5G6jTrzjpC/El7EhXohaaiOyFgFJdmDiUrWGmF1VIJdB9QyMRyqZ+HUD9A==";
 
     private static getHeaders() {
         const headers = new Headers();
-        const config = useRuntimeConfig()
-        this.API_KEY = config.public.apiKey
+  //      const config = useRuntimeConfig()
+   //     this.API_KEY = config.public.apiKey
         headers.append("X-API-KEY", RestClient.API_KEY)
         return headers
     }
@@ -46,16 +46,8 @@ export class RestClient {
     }
 
     static async getAllCanteens() {
-
-        let canteens = localStorage.getItem('canteens');
-
-        if (canteens) {
-            return Promise.resolve(JSON.parse(canteens));
-        } else {
             const fetchedCanteens = await this.fetchAllCanteens();
-            localStorage.setItem('canteens', JSON.stringify(fetchedCanteens));
             return fetchedCanteens;
-        }
     }
 
     static async getMealById(mealId: string) {
@@ -73,8 +65,6 @@ export class RestClient {
         }
         return await this.fetchFromApi(this.ENDPOINT_MENUE, params);
     }
-
-
 
 }
 

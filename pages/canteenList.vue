@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="filter-container">
+      <h6 v-if="!internetConnection">Without a Internet connection you only have access to your favorite canteen</h6>
       <input class="form-control" type="text" v-model="filterText" placeholder="Mensa suchen">
     </div>
     <div class="canteen-container">
@@ -30,31 +31,81 @@ export default {
     return {
       allCanteens: [],
       filterText: '',
+      internetConnection: navigator.onLine,
     }
   },
   mounted() {
-    RestClient.getAllCanteens().then(data => {
-      this.allCanteens = data;
-    });
+    window.addEventListener('online', this.updateInternetConnection);
+    window.addEventListener('offline', this.updateInternetConnection);
+    // Check if there is an internet connection
+    const isOnline = navigator.onLine;
+
+    if (isOnline) {
+      // Online: Make API call using RestClient
+      RestClient.getAllCanteens().then((data) => {
+        this.allCanteens = data;
+      });
+    } else {
+      // Offline: Retrieve canteens from IndexedDB
+      console.log('Fetching data from indexedDB')
+      const request = indexedDB.open('offline', 1);
+
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction('canteens', 'readonly');
+        const objectStore = transaction.objectStore('canteens');
+        const getAllRequest = objectStore.getAll();
+
+        getAllRequest.onsuccess = (event) => {
+          const canteens = event.target.result;
+          this.allCanteens = canteens;
+        };
+
+        transaction.onerror = (event) => {
+          console.error('Error retrieving canteens from IndexedDB:', event.target.error);
+        };
+      };
+
+      request.onerror = (event) => {
+        console.error('Error opening IndexedDB:', event.target.error);
+      };
+    }
   },
+  beforeUnmount() {
+    // Remove event listener when component is unmounted
+    window.removeEventListener('online', this.updateInternetConnection);
+    window.removeEventListener('offline', this.updateInternetConnection);
+  },
+
   computed: {
     filteredCanteens() {
       const filter = this.filterText.trim().toLowerCase();
-      return this.allCanteens
-          .filter(canteen => canteen.name.toLowerCase().includes(filter))
-          .sort((a, b) => {
-            if (this.canteenIsFavorite(a)) {
-              return -1; // a is favorite, b is not
-            } else if (this.canteenIsFavorite(b)) {
-              return 1; // b is favorite, a is not
-            } else {
-              // Neither a nor b is favorite, sort by name
-              return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-            }
-          });
-    },
+      if (!this.internetConnection) {
+        // Return only the favorite canteen if there is no internet connection
+        const favoriteCanteenId = localStorage.getItem('favoriteCanteenId');
+        return this.allCanteens.filter(canteen => canteen.id === favoriteCanteenId);
+      } else {
+        // Filter and sort the canteens as usual
+        return this.allCanteens
+            .filter(canteen => canteen.name.toLowerCase().includes(filter))
+            .sort((a, b) => {
+              if (this.canteenIsFavorite(a)) {
+                return -1; // a is favorite, b is not
+              } else if (this.canteenIsFavorite(b)) {
+                return 1; // b is favorite, a is not
+              } else {
+                // Neither a nor b is favorite, sort by name
+                return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+              }
+            });
+      }
+    }
+,
   },
   methods: {
+    updateInternetConnection() {
+      this.internetConnection = navigator.onLine;
+    },
     canteenIsFavorite(canteen: any): boolean{
       const favCanteenId = localStorage.getItem('favoriteCanteenId')
       return favCanteenId === canteen.id
@@ -94,7 +145,23 @@ export default {
     navigateToCanteenDetails(canteenId) {
       this.$router.push(`/canteens/${canteenId}`)
     },
-  },
+     getCanteensFromDB(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('canteens', 'readonly');
+    const objectStore = transaction.objectStore('canteens');
+    const request = objectStore.getAll();
+
+    request.onsuccess = (event) => {
+      resolve(event.target.result);
+    };
+
+    request.onerror = (event) => {
+      reject(event.target.error);
+    };
+  });
+}
+
+},
 }
 </script>
 

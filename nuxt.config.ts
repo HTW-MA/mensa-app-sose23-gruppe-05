@@ -33,11 +33,14 @@ export default defineNuxtConfig({
     // PWA module configuration: https://go.nuxtjs.dev/pwa
     pwa: {
         registerType: 'autoUpdate',
+        strategies: 'injectManifest',
         manifest: {
             theme_color: '#ff992b',
             name: 'MensaMania',
             short_name: 'MensaMania',
             start_url: '/',
+            display: "standalone",
+            orientation: "portrait",
             lang: 'de',
             icons: [
                 {
@@ -80,7 +83,21 @@ export default defineNuxtConfig({
         },
         workbox: {
             navigateFallback: '/',
-            globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+            swDest: '/sw.js',
+            globPatterns: ['**/*.{js,css,html,png,svg,ico,vue}'],
+            runtimeCaching: [
+                {
+                    urlPattern: ({ url }) => url.origin === 'https://mensa.projekt-ipa.tech' && url.pathname.startsWith('/api/'),
+                    handler: 'NetworkFirst',
+                    options: {
+                        cacheName: 'api-cache',
+                        expiration: {
+                            maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
+                        }
+                    }
+                }
+            ],
+            importScripts: ['/sw.js?apiKey=IxzGn/rZqdwcAEWYiRh7d6+goi+8IjQiwJXNuXcCqcxCF80yUjGYFpjtYhlJZ1mSpermRXL7Iz6jarukJxGsbTpBXfWNAx79H2iDMyWed/zlilSwJ87mI6jMViiYVxzwZJvNo8CptnSn/ECXtJIpcD8tj51fLaydAigxeqz0Vgy1MMs4wV6zX8x62iFP8nN7+B3fIfYHj+73aCM1e9Mqv3oIHIwbZTMK84KeAeMDq/5zL8NaWXOrDlvmmCi04DV9V7d7FPlEVbNeBCsjQOUIOdhbq+3z5G6jTrzjpC/El7EhXohaaiOyFgFJdmDiUrWGmF1VIJdB9QyMRyqZ+HUD9A=='],
         },
         client: {
             installPrompt: true,
