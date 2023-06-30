@@ -37,7 +37,7 @@ export default defineNuxtConfig({
             theme_color: '#ff992b',
             name: 'MensaMania',
             short_name: 'MensaMania',
-            start_url: '/welcome',
+            start_url: '/',
             lang: 'de',
             icons: [
                 {
