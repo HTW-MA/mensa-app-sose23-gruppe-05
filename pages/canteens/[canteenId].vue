@@ -30,12 +30,20 @@
     <div class="canteen-menu">
       <h2>Menü</h2>
       <div class="button-date">
-        <button class="toggle-date" :class="{ disabled: isFirstDay }" @click="toggleDate(false)">-</button>
+        <button class="toggle-date" :class="{ disabled: isFirstDay }" @click="toggleDate(false)">
+          <Icon
+              name="ic:baseline-arrow-back"
+          ></Icon>
+        </button>
         <div class="day-date">
         <span class="day"> {{ day }} </span>
         <span> {{ selectedDateString.slice(5,10) }} </span>
         </div>
-        <button class="toggle-date" :class="{ disabled: isLastDay }" @click="toggleDate(true)">+</button>
+        <button class="toggle-date" :class="{ disabled: isLastDay }" @click="toggleDate(true)">
+          <Icon
+              name="ic:baseline-arrow-forward"
+          ></Icon>
+        </button>
       </div>
       <div class="filter">
         <button class="filter-button" :class="{ 'active': selectedCategory === 'Essen' }" @click="selectedCategory = 'Essen'">Essen</button>
@@ -318,7 +326,7 @@ export default {
 }
 
 .toggle-date {
-  padding: 8px 30px;
+  padding: 6px 24px;
 }
 
 .filter {
