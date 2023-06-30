@@ -37,7 +37,7 @@
         </button>
         <div class="day-date">
         <span class="day"> {{ day }} </span>
-        <span> {{ selectedDateString.slice(5,10) }} </span>
+          <span> {{'(' + selectedDateStringReadableFormatted + ')' }} </span>
         </div>
         <button class="toggle-date" :class="{ disabled: isLastDay }" @click="toggleDate(true)">
           <Icon
@@ -236,6 +236,15 @@ export default {
 
   },
   computed: {
+    selectedDateStringReadableFormatted () {
+
+      const date = new Date(this.selectedDateString);
+
+      const options = { day: "2-digit", month: "2-digit" };
+
+      return date.toLocaleDateString("de-DE", options);
+
+    },
     isFirstDay() {
       return this.selectedDateString === this.startDate;
     },
