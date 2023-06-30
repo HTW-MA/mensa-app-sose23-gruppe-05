@@ -6,6 +6,7 @@
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
         <Icon v-if="canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite" color="#d9480f" size="30" />
+        <Icon v-if="!canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite-border" size="30" @click.stop="toggleFavourite(canteen.id)" />
         <div class="text-container">
           <h5 style="font-weight: bold">{{ canteen.name }}</h5>
           <div>{{ canteen.address.street}}</div>
@@ -55,6 +56,11 @@ export default {
     },
   },
   methods: {
+    toggleFavourite(canteenid) {
+      localStorage.setItem('favoriteCanteenId', canteenid)
+      this.$forceUpdate();
+
+    },
     canteenIsFavorite(canteen: any): boolean{
       const favCanteenId = localStorage.getItem('favoriteCanteenId')
       return favCanteenId === canteen.id
