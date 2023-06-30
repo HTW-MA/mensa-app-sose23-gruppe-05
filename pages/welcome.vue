@@ -55,7 +55,38 @@ export default {
     }
   },
   mounted() {
-    RestClient.getAllCanteens().then(data => { this.allCanteens = data; })
+    const isOnline = navigator.onLine;
+
+    if (isOnline) {
+      // Online: Make API call using RestClient
+      RestClient.getAllCanteens().then((data) => {
+        this.allCanteens = data;
+      });
+    } else {
+      // Offline: Retrieve canteens from IndexedDB
+      console.log('Fetching data from indexedDB')
+      const request = indexedDB.open('offline', 1);
+
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction('canteens', 'readonly');
+        const objectStore = transaction.objectStore('canteens');
+        const getAllRequest = objectStore.getAll();
+
+        getAllRequest.onsuccess = (event) => {
+          const canteens = event.target.result;
+          this.allCanteens = canteens;
+        };
+
+        transaction.onerror = (event) => {
+          console.error('Error retrieving canteens from IndexedDB:', event.target.error);
+        };
+      };
+
+      request.onerror = (event) => {
+        console.error('Error opening IndexedDB:', event.target.error);
+      };
+    }
   },
   methods: {
     searchCanteen() {
@@ -91,7 +122,6 @@ export default {
       const favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
 
       localStorage.setItem('userRole', this.selectedRole);
-      localStorage.setItem('favoriteCanteen', this.canteen);
       localStorage.setItem('hasVisited', true);
       localStorage.setItem('favoriteCanteenId',favCanteenId );
       navigateTo('canteens/' + favCanteenId)
