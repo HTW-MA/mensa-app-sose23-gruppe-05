@@ -31,7 +31,6 @@ self.addEventListener('push', function(event) {
 });
 
 // SELF MESSAGING
-
 self.addEventListener('fetch', function(event) {
     event.respondWith(fetchAndCache(event.request));
 });

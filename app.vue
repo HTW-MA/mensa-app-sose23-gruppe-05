@@ -47,8 +47,8 @@ export default {
     this.startPeriodicNotification();
   },
   methods: {
-    startPeriodicNotification() {
-      setInterval(async () => {
+  async startPeriodicNotification() {
+  //    setInterval(async () => {
         try {
           const messaging = getMessaging();
           const token = await getToken(messaging);
@@ -63,9 +63,9 @@ export default {
             },
             body: JSON.stringify({
               to: token,
-              notification: {
-                title: "Periodic Notification",
-                body: "This is a periodic notification.",
+              data: {
+                title: "Welcome",
+                body: "Welcome to MensaMania!",
               },
             }),
           });
@@ -74,7 +74,7 @@ export default {
         } catch (error) {
           console.error("Error sending periodic notification:", error);
         }
-      }, 5 * 1000); // Send notification every 1 minute (adjust as needed)
+    //  }, 10 * 1000); // Send notification every 1 minute (adjust as needed)
     },
   },
 };
