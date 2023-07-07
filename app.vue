@@ -48,7 +48,7 @@ export default {
   },
   methods: {
   async startPeriodicNotification() {
-  //    setInterval(async () => {
+   //   setInterval(async () => {
         try {
           const messaging = getMessaging();
           const token = await getToken(messaging);
@@ -58,7 +58,7 @@ export default {
           await fetch("https://fcm.googleapis.com/fcm/send", {
             method: "POST",
             headers: {
-              Authorization: "Bearer AAAAAtmCQqU:APA91bFdyf0UgUl4LA6solqDtkbEA5-4nsejH0ZkNRPeah04_WEOceV0hUW6U66V_A31hGwwEYsfURJejF7m742SbZ0RxhYO4fNm8qw7YPOsjx8Qi2qkLB2UHuIxqR7DefFohP6NaFOg",
+              Authorization: "Bearer AAAAe-ZXsGE:APA91bFuYaN-XdA-w6SPLhSq7GjbetbBsORcqcw46_D6eMXuw5dXdeb86SS7fPTeFak6nj9EgVvMg5Ir2Jf-29NuTlhOfx1yVg8pv16PnZKnZ6wIhRZ7uzM2_zXtQVIM1hhG-4rdDlKP",
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -74,7 +74,7 @@ export default {
         } catch (error) {
           console.error("Error sending periodic notification:", error);
         }
-    //  }, 10 * 1000); // Send notification every 1 minute (adjust as needed)
+     // }, 5 * 1000); // Send notification every 1 minute (adjust as needed)
     },
   },
 };
