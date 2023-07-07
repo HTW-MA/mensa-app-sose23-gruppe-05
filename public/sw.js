@@ -1,9 +1,11 @@
 // sw.js
-
+/*
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
 import { precacheAndRoute } from 'workbox-precaching';
 import { RestClient } from "~/services/RestClient";
+
+
 
 // Precache the necessary resources
 precacheAndRoute(self.__WB_MANIFEST || []);
@@ -94,4 +96,4 @@ self.addEventListener('activate', (event) => {
 
     // Trigger the install event again
     self.skipWaiting();
-});
+*/

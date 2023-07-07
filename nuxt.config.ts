@@ -19,6 +19,7 @@ export default defineNuxtConfig({
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
+        '~/plugins/firebase.js',
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -97,7 +98,9 @@ export default defineNuxtConfig({
                     }
                 }
             ],
-            importScripts: ['/sw.js?apiKey=IxzGn/rZqdwcAEWYiRh7d6+goi+8IjQiwJXNuXcCqcxCF80yUjGYFpjtYhlJZ1mSpermRXL7Iz6jarukJxGsbTpBXfWNAx79H2iDMyWed/zlilSwJ87mI6jMViiYVxzwZJvNo8CptnSn/ECXtJIpcD8tj51fLaydAigxeqz0Vgy1MMs4wV6zX8x62iFP8nN7+B3fIfYHj+73aCM1e9Mqv3oIHIwbZTMK84KeAeMDq/5zL8NaWXOrDlvmmCi04DV9V7d7FPlEVbNeBCsjQOUIOdhbq+3z5G6jTrzjpC/El7EhXohaaiOyFgFJdmDiUrWGmF1VIJdB9QyMRyqZ+HUD9A=='],
+            importScripts: [
+                '/sw.js?apiKey=IxzGn/rZqdwcAEWYiRh7d6+goi+8IjQiwJXNuXcCqcxCF80yUjGYFpjtYhlJZ1mSpermRXL7Iz6jarukJxGsbTpBXfWNAx79H2iDMyWed/zlilSwJ87mI6jMViiYVxzwZJvNo8CptnSn/ECXtJIpcD8tj51fLaydAigxeqz0Vgy1MMs4wV6zX8x62iFP8nN7+B3fIfYHj+73aCM1e9Mqv3oIHIwbZTMK84KeAeMDq/5zL8NaWXOrDlvmmCi04DV9V7d7FPlEVbNeBCsjQOUIOdhbq+3z5G6jTrzjpC/El7EhXohaaiOyFgFJdmDiUrWGmF1VIJdB9QyMRyqZ+HUD9A==',
+                '/firebase-messaging-sw.js',],
         },
         client: {
             installPrompt: true,
