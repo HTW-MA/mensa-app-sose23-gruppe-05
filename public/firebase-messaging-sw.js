@@ -2,6 +2,8 @@
 importScripts('https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.2.1/firebase-messaging.js');
 
+
+
 firebase.initializeApp({
         apiKey: "AIzaSyD2e-6EjpMrnj1FKUxBMLPs4wr2-EM3NQ8",
         authDomain: "mensa-d7a51.firebaseapp.com",

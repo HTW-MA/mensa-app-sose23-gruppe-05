@@ -1,5 +1,5 @@
 // sw.js
-/*
+
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
 import { precacheAndRoute } from 'workbox-precaching';
@@ -9,6 +9,8 @@ import { RestClient } from "~/services/RestClient";
 
 // Precache the necessary resources
 precacheAndRoute(self.__WB_MANIFEST || []);
+
+/*
 
 // Register the network-first caching strategy for all routes under https://mensa.projekt-ipa.tech/api/
 registerRoute(
