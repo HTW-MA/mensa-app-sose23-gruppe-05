@@ -1,19 +1,22 @@
 <template>
   <div class="container mt-5">
-    <h1 class="text-center" style="font-family: 'Comme'; color: #555;">Willkommen zu MensaMania!</h1>
+    <h1 class="text-center" style="font-family: 'Comme'; color: #555;">Willkommen zu <span
+        style="color: #ff922b;">MensaMania</span>!</h1>
     <div class="row justify-content-center mt-5">
       <div class="col-lg-6">
         <div class="mb-3">
           <label for="searchField" class="form-label" style="font-weight: bold; color: #555;">Lieblingsmensa:</label>
           <input className="canteenSearch" type="text" id="canteenSearch" class="form-control equal-width"
             v-model="canteen" placeholder="Suche deine Lieblingsmensa" style="background-color: #ffffff;"
-            @input="searchCanteen" >
+            @input="searchCanteen" @click="searchCanteen">
         </div>
-        <ul class="list-group" v-if="showResults===true">
-          <li v-for="result in filteredResults" :key="result.id" class="list-group-item" @click="selectCanteen(result)">
-            {{ result.name }}
-          </li>
-        </ul>
+        <div class="mb-3">
+          <ul class="list-group" v-if="showResults === true">
+            <li v-for="result in filteredResults" :key="result.id" class="list-group-item" @click="selectCanteen(result)">
+              {{ result.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="row justify-content-center">
@@ -30,9 +33,13 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-center mt-3 ">
-      <div class="col-lg-2">
-        <NuxtLink class="btn" @click="saveSetting">Speichern</NuxtLink>
+    <div class="container text-center">
+      <div class="row mt-3">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+          <NuxtLink class="btn text-center" @click="saveSetting">Speichern</NuxtLink>
+        </div>
+        <div class="col-sm"></div>
       </div>
     </div>
   </div>
@@ -41,7 +48,7 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
-import {navigateTo} from "#app";
+import { navigateTo } from "#app";
 
 export default {
   name: 'WelcomePage',
@@ -91,22 +98,19 @@ export default {
   methods: {
     searchCanteen() {
 
-      if (this.canteen === '') {
-        this.showResults = false;
-        this.filteredResults = [];
-        return;
-      }
+      this.showResults = true;
 
       const query = this.canteen.toLowerCase();
       this.filteredResults = this.allCanteens.filter(canteen => canteen.name.toLowerCase().includes(query));
 
 
-      this.showResults = this.filteredResults.length > 0;
+      this.showResults = this.filteredResults.length > 0 && this.canteen !== this.filteredResults[0].name;
     },
 
     selectCanteen(canteen) {
       this.canteen = canteen.name;
       this.showResults = false;
+      console.log("Showresults: " + this.showResults);
     },
 
     saveSetting() {
@@ -123,10 +127,9 @@ export default {
 
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
-      localStorage.setItem('favoriteCanteenId',favCanteenId );
+      localStorage.setItem('favoriteCanteenId', favCanteenId);
       navigateTo('canteens/' + favCanteenId)
-    }
-
+    },
   },
   setup() {
     definePageMeta({
@@ -148,8 +151,7 @@ export default {
   color: #333;
 }
 
-.btn{
-  transition: all .7s ;
+.btn {
+  transition: all .7s;
 }
-
 </style>
