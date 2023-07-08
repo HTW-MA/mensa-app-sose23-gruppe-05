@@ -48,7 +48,7 @@ export default {
   },
   methods: {
   async startPeriodicNotification() {
-      setInterval(async () => {
+     // setInterval(async () => {
         try {
           const messaging = getMessaging();
           const token = await getToken(messaging);
@@ -74,7 +74,7 @@ export default {
         } catch (error) {
           console.error("Error sending periodic notification:", error);
         }
-      }, 5 * 1000); // Send notification every 1 minute (adjust as needed)
+   //   }, 5 * 1000); // Send notification every 1 minute (adjust as needed)
     },
   },
 };
