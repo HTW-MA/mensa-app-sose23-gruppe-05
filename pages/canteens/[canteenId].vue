@@ -53,10 +53,13 @@
         <button class="filter-button" @click="selectedCategory = 'Desserts'">Desserts</button>
       </div>
       <div>
-        <div v-for="item in filteredMenuItems" :key="item.date">
+        <div v-if="filteredMenuItems.length === 0" class="no-mensa">
+          Diese Mensa hat keine Informationen verfügbar. Bitte Versuche es mit einer anderen Mensa
+        </div>
+        <div v-else v-for="item in filteredMenuItems" :key="item.date">
           <div v-if="item.meals.length === 0" class="no-menu">
             <!-- Render when the canteen is closed for the selected date -->
-            Es ist kein Menü für den ausgewählten Tag verfügbar.
+            Es ist kein Menü für den ausgewählten Tag verfügbar
           </div>
           <div v-else>
             <!-- Render menu items for the selected date -->
@@ -128,6 +131,7 @@ export default {
     // Fetch canteen data from API
     RestClient.getCanteenById(this.canteenId)
         .then(data => {
+          console.log("Canteen: " ,data)
           this.canteen = data[0];
         });
 
@@ -135,6 +139,7 @@ export default {
     this.calculateDates();
     RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
         .then(data => {
+          console.log("Menu data: ", data);
           this.menuItems = data;
           this.filterMenu(); // Filter and display the menu
         });
@@ -179,11 +184,13 @@ export default {
         return ["geschlossen", "geschlossen"];
       }
 
-      const openingHour = businessHours[0].openAt + " - " + businessHours[0].closeAt;
-      const mensaHour = businessHours[1].openAt + " - " + businessHours[1].closeAt;
+      const openingHour = (businessHours[0]?.openAt ?? "Keine Info") + " - " + (businessHours[0]?.closeAt ?? "Keine Info");
+      const mensaHour = (businessHours[1]?.openAt ?? "Keine Info") + " - " + (businessHours[1]?.closeAt ?? "Keine Info");
 
       return [openingHour, mensaHour];
     },
+
+
 
     displayDay(day) {
       switch (day) {
@@ -254,20 +261,26 @@ export default {
       return this.selectedDateString === this.endDate;
     },
     filteredMenuItems() {
+      let result;
+
       if (this.selectedCategory === 'Essen') {
-        return this.menuToDay.map(item => {
+        result = this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === 'Vorspeisen' || meal.category === 'Essen');
           return { ...item, meals: filteredMeals };
         });
       } else if (this.selectedCategory !== 'All') {
-        return this.menuToDay.map(item => {
+        result = this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === this.selectedCategory);
           return { ...item, meals: filteredMeals };
         });
       } else {
-        return this.menuToDay;
+        result = this.menuToDay;
       }
+
+      console.log("Returning:", result);  // Log the result before returning
+      return result;
     }
+
 
 
   }
@@ -277,8 +290,6 @@ export default {
 
 
 <style scoped>
-
-
 
 .canteen-header {
   display: flex;
@@ -404,7 +415,7 @@ p {
   font: bold 16px Arial, sans-serif;
 }
 
-.no-menu {
+.no-menu, .no-mensa {
   font-size: 18px;
   color: #d9480f;
   font-weight: bold;
@@ -415,6 +426,11 @@ p {
   background: #fcebde;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
   0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.no-mensa {
+  background: #d9480f;
+  color: black;
 }
 
 .no-favorite {
