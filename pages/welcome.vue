@@ -5,7 +5,7 @@
       <div class="col-lg-6">
         <div class="mb-3">
           <label for="searchField" class="form-label" style="font-weight: bold; color: #555;">Lieblingsmensa:</label>
-          <input className="canteenSearch" type="text" id="canteenSearch" class="form-control equal-width"
+          <input className="canteenSearch" type="search" id="canteenSearch" class="form-control equal-width"
             v-model="canteen" placeholder="Suche deine Lieblingsmensa" style="background-color: #ffffff;"
             @input="searchCanteen" >
         </div>
