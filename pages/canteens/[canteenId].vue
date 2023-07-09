@@ -52,7 +52,11 @@
         <button class="filter-button" @click="selectedCategory = 'Suppen'">Suppen</button>
         <button class="filter-button" @click="selectedCategory = 'Desserts'">Desserts</button>
       </div>
-      <div>
+      <div v-if="isLoading" class="spinner-container">
+        <div v-if="isLoading" class="spinner">
+        </div>
+      </div>
+      <div v-else>
         <div v-if="filteredMenuItems.length === 0" class="no-mensa">
           Diese Mensa hat keine Informationen verfügbar. Bitte Versuche es mit einer anderen Mensa
         </div>
@@ -124,14 +128,14 @@ export default {
       selectedDateString: '',
       selectedDate: new Date(),
       day: '',
-      userRole: localStorage.getItem('userRole')
+      userRole: localStorage.getItem('userRole'),
+      isLoading: true
     }
   },
   mounted() {
     // Fetch canteen data from API
     RestClient.getCanteenById(this.canteenId)
         .then(data => {
-          console.log("Canteen: " ,data)
           this.canteen = data[0];
         });
 
@@ -139,7 +143,6 @@ export default {
     this.calculateDates();
     RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
         .then(data => {
-          console.log("Menu data: ", data);
           this.menuItems = data;
           this.filterMenu(); // Filter and display the menu
         });
@@ -147,6 +150,35 @@ export default {
     this.favourites = localStorage.getItem('favoriteCanteenId') || '';
     this.isFavourite = this.favourites.includes(this.canteenId);
   },
+
+  created() {
+    this.isLoading = true; // Set loading to true initially
+
+    const fetchCanteen = RestClient.getCanteenById(this.canteenId)
+        .then(data => {
+          console.log("Canteen: " ,data);
+          this.canteen = data[0];
+        });
+
+    this.calculateDates();
+    const fetchMenu = RestClient.getMenueForCanteenInPeriod(this.canteenId, this.startDate, this.endDate)
+        .then(data => {
+          console.log("Menu data: ", data);
+          this.menuItems = data;
+          this.filterMenu(); // Filter and display the menu
+        });
+
+    Promise.all([fetchCanteen, fetchMenu])
+        .then(() => {
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    this.favourites = localStorage.getItem('favoriteCanteenId') || '';
+    this.isFavourite = this.favourites.includes(this.canteenId);
+  },
+
 
   methods: {
     getAdditivesText(additives) {
@@ -173,6 +205,11 @@ export default {
     },
     filterMenu() {
       this.menuToDay = this.menuItems.filter(item => item.date === this.selectedDateString);
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.isLoading = false; // Set loading to false after 1 second
+        }, 1000);
+      });
     },
 
     getOpeningHours() {
@@ -266,23 +303,22 @@ export default {
       if (this.selectedCategory === 'Essen') {
         result = this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === 'Vorspeisen' || meal.category === 'Essen');
+          this.isLoading = false;
           return { ...item, meals: filteredMeals };
         });
       } else if (this.selectedCategory !== 'All') {
         result = this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === this.selectedCategory);
+          this.isLoading = false;
           return { ...item, meals: filteredMeals };
         });
       } else {
+        this.isLoading = false;
         result = this.menuToDay;
       }
-
-      console.log("Returning:", result);  // Log the result before returning
+      this.isLoading = false;
       return result;
     }
-
-
-
   }
 
 }
@@ -458,6 +494,24 @@ p {
   margin-left: 1rem;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #d9480f;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 </style>
