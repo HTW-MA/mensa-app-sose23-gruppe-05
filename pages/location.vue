@@ -1,12 +1,11 @@
 <template>
   <div>
-    <h3>Location</h3>
     <div id="mapContainer">
       <div id="map" :class="{ 'disabled': !internetConnection }"></div>
       <div v-if="!internetConnection" class="notification">In order to have access to the map, please ensure that you have an internet connection.</div>
     </div>
     <div class="share-button-container">
-      <button class="share-button" @click="trackLocation" :disabled="!internetConnection" v-show="internetConnection">Share my Location</button>
+      <button class="share-button" @click="trackLocation" :disabled="!internetConnection" v-show="internetConnection">Meinen Standort abrufen</button>
     </div>
   </div>
 </template>
@@ -73,7 +72,7 @@ function addMarker(latlng: LatLngExpression) {
   });
 
   marker = L.marker(latlng, { icon: redIcon }).addTo(map);
-  marker.bindPopup(`<strong>${"Your location"}</strong>`);
+  marker.bindPopup(`<strong>${"Dein Standort"}</strong>`);
 }
 
 function trackLocation() {
