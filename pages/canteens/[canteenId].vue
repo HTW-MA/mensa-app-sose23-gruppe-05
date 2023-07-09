@@ -144,17 +144,6 @@ export default {
   },
 
   methods: {
-    getFilteredPrices(prices) {
-      if (this.role === 'student') {
-        return prices.filter(price => price.priceType === 'Studierende');
-      } else if (this.role === 'employee') {
-        return prices.filter(price => price.priceType === 'Angestellte');
-      } else if (this.role === 'guest') {
-        return prices.filter(price => price.priceType === 'Gäste');
-      } else {
-        return prices;
-      }
-    },
     getAdditivesText(additives) {
       return additives.map(additive => additive.text).join(', ');
     },
@@ -341,19 +330,30 @@ export default {
   background-color: #ff992b;
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 5px 20px;
   cursor: pointer;
   transition: 0.4s;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
-  margin: 2px 2px;
+  margin: 2px;
+  display: inline-block;
+  text-align: center;
 }
 
 .toggle-date {
   padding: 6px 24px;
 }
 
-.filter {
+.filter-button {
+  width: 100px;
+  height: 40px;
+  padding: 5px 20px;
+  line-height: 30px;
 }
+
+
+.filter {
+  text-align: center;
+}
+
 
 .button-date {
   display: flex;
