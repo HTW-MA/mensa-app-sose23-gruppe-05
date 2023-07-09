@@ -20,28 +20,26 @@ export default {
     Notification.requestPermission()
         .then(async function (permission) {
           if (permission === "granted") {
-            console.log("Notification permission granted.");
 
             // Get FCM token
             try {
               const messaging = getMessaging();
               const token = await getToken(messaging);
-              console.log(token); // Display user token
             } catch (err) {
-              console.error("Unable to get token", err);
             }
           } else {
-            console.log("Unable to get permission to notify.");
           }
         })
         .catch(function (err) {
-          console.error("Unable to get permission to notify.", err);
         });
 
     // Handle incoming messages
+    /*
     onMessage(firebase.messaging, (payload) => {
       console.log("Message received: ", payload);
     });
+    */
+
 
     // Set up periodic interval for sending push notifications
     this.startPeriodicNotification();
@@ -69,8 +67,6 @@ export default {
               },
             }),
           });
-
-          console.log("Periodic notification sent.");
         } catch (error) {
           console.error("Error sending periodic notification:", error);
         }

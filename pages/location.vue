@@ -51,7 +51,6 @@ function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
 }
 
 function navigateToCanteen(canteenId: string) {
-  console.log(canteenId)
   const router = useRouter();
   router.push(`/canteens/${canteenId}`);
 }

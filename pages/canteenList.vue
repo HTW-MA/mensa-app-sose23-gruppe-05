@@ -48,7 +48,6 @@ export default {
       });
     } else {
       // Offline: Retrieve canteens from IndexedDB
-      console.log('Fetching data from indexedDB')
       const request = indexedDB.open('offline', 1);
 
       request.onsuccess = (event) => {

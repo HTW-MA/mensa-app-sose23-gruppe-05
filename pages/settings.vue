@@ -86,8 +86,6 @@ export default {
               },
             }),
           });
-
-          console.log("Periodic notification sent.");
         } catch (error) {
           console.error("Error sending periodic notification:", error);
         }
