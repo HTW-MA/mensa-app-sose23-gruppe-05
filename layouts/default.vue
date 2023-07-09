@@ -24,7 +24,7 @@
             <Icon class="icon" name="ic:baseline-favorite" color="black" size="50px"/>
           </NuxtLink>
           <NuxtLink class="link" to="/canteenList">
-            <Icon class="icon" name="ic:outline-menu" color="black" size="50px"/>
+            <Icon class="icon" name="ic:baseline-format-list-bulleted" color="black" size="50px"/>
           </NuxtLink>
           <NuxtLink class="link" to="/location">
             <Icon class="icon" name="ic:baseline-location-on" color="black" size="50px" />
