@@ -79,6 +79,26 @@
     </div>
   </div>
   </div>
+  <div v-else class="no-favorite">
+    <h2>Keine Lieblingsmensa ausgewählt!</h2>
+    <p>Um deine Lieblingsmensa auszuwählen, navigiere zu einer Mensa deiner Wahl oder der Mensaliste und klicke auf das Herzsymbol in der oberen rechten Ecke. Das Herzsymbol ändert sich je nachdem, ob die Mensa zu deinen Favoriten gehört oder nicht:</p>
+    <div class="icon-example">
+      <Icon
+          name="ic:baseline-favorite-border"
+          size="50px"
+          color="#d9480f"
+      ></Icon>
+      <p class="icon-description">Dieses Symbol zeigt an, dass die Mensa noch nicht zu deinen Favoriten gehört. Klicken darauf, um sie hinzuzufügen.</p>
+    </div>
+    <div class="icon-example">
+      <Icon
+          name="ic:baseline-favorite"
+          size="50px"
+          color="#d9480f"
+      ></Icon>
+      <p>Dieses Symbol zeigt an, dass die Mensa zu deinen Favoriten gehört. Klicke darauf, um sie zu entfernen.</p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -396,5 +416,32 @@ p {
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
   0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
+
+.no-favorite {
+  padding: 2rem;
+  text-align: center;
+  color: #4a4a4a;
+  font-size: 1.2rem;
+}
+
+.no-favorite h2 {
+  color: #d9480f;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.icon-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: 50px;
+}
+
+.icon-example p {
+  margin-left: 1rem;
+}
+
+
 
 </style>
