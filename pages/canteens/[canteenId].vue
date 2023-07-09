@@ -54,9 +54,9 @@
       </div>
       <div>
         <div v-for="item in filteredMenuItems" :key="item.date">
-          <div v-if="item.meals.length === 0">
+          <div v-if="item.meals.length === 0" class="no-menu">
             <!-- Render when the canteen is closed for the selected date -->
-            Mensa ist geschlossen
+            Es ist kein Menü für den ausgewählten Tag verfügbar.
           </div>
           <div v-else>
             <!-- Render menu items for the selected date -->
@@ -249,16 +249,17 @@ export default {
         return this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === 'Vorspeisen' || meal.category === 'Essen');
           return { ...item, meals: filteredMeals };
-        }).filter(item => item.meals.length > 0);
+        });
       } else if (this.selectedCategory !== 'All') {
         return this.menuToDay.map(item => {
           const filteredMeals = item.meals.filter(meal => meal.category === this.selectedCategory);
           return { ...item, meals: filteredMeals };
-        }).filter(item => item.meals.length > 0);
+        });
       } else {
         return this.menuToDay;
       }
     }
+
 
   }
 
@@ -362,14 +363,38 @@ p {
 .filter-button.active,
 .filter-button:hover,
 .filter-button:focus,
-.filter-button:active {
+.filter-button:active,
+.toggle-date:active {
   background-color: #d9480f;
-  /* Other styles for active button */
 }
 
+@keyframes clickAnimation {
+  0% {background-color: #d9480f;}
+  80% {background-color: #d9480f;}
+  100% {background-color: #ff992b;}
+}
+
+.filter-button:active,
+.toggle-date:active {
+  animation: clickAnimation 20s forwards;
+}
 
 .day {
   margin-right: 5px;
   font: bold 16px Arial, sans-serif;
 }
+
+.no-menu {
+  font-size: 18px;
+  color: #d9480f;
+  font-weight: bold;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: center;
+  border-radius: 5px;
+  background: #fcebde;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
 </style>
