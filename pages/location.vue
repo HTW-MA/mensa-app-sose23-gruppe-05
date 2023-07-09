@@ -1,14 +1,19 @@
 <template>
   <div>
     <h3>Location</h3>
-    <div id="map" style="height: 400px;"></div>
-    <button class="share-button" @click="trackLocation">Share my Location</button>
+    <div id="mapContainer">
+      <div id="map" :class="{ 'disabled': !internetConnection }"></div>
+      <div v-if="!internetConnection" class="notification">In order to have access to the map, please ensure that you have an internet connection.</div>
+    </div>
+    <div class="share-button-container">
+      <button class="share-button" @click="trackLocation" :disabled="!internetConnection" v-show="internetConnection">Share my Location</button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import L, { LatLngExpression, Marker } from 'leaflet';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { RestClient } from "~/services/RestClient";
 import redMarker from '@/assets/marker-red.png';
 import blueMarker from '@/assets/marker-blue.png';
@@ -20,11 +25,12 @@ const latitude = 52.520008;
 const longitude = 13.404954;
 const zoomLevel = 10;
 
-let map: L.Map;
+let map: L.Map | null = null;
 let marker: Marker | null = null;
 const markers: Marker[] = [];
 const currentLocation = ref<LatLngExpression | null>(null);
-
+const internetConnection = ref(navigator.onLine);
+const mapDisabled = ref(false);
 
 function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
   const blueIcon = L.icon({
@@ -33,14 +39,14 @@ function addMarkerForCanteens(latlng: LatLngExpression, canteen: any) {
     iconAnchor: [20, 20],
   });
 
-  const marker = L.marker(latlng, { icon: blueIcon }).addTo(map); // Create a new marker
+  const marker = L.marker(latlng, { icon: blueIcon }).addTo(map);
   marker.bindPopup(`
     <div style="display: flex; flex-direction: column; align-items: center;">
       <strong>${canteen.name}</strong>
       <button style="border: 1px solid #ddd; background-color: #ff992b; margin-top: 5px;  border-radius: 5px;">Show Menu</button>
     </div>
-  `); // Set the popup content with the styled button
-  markers.push(marker); // Add the marker to the array
+  `);
+  markers.push(marker);
 
   marker.on('popupopen', () => {
     const popupButton = document.querySelector('.leaflet-popup-content button');
@@ -55,7 +61,6 @@ function navigateToCanteen(canteenId: string) {
   router.push(`/canteens/${canteenId}`);
 }
 
-
 function addMarker(latlng: LatLngExpression) {
   if (marker) {
     map.removeLayer(marker);
@@ -68,25 +73,32 @@ function addMarker(latlng: LatLngExpression) {
   });
 
   marker = L.marker(latlng, { icon: redIcon }).addTo(map);
-  marker.bindPopup(`<strong>${"Your location"}</strong>`);// Set the popup content
+  marker.bindPopup(`<strong>${"Your location"}</strong>`);
 }
 
 function trackLocation() {
-  if (navigator.geolocation) {
+  if (navigator.onLine) {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       currentLocation.value = [latitude, longitude];
       addMarker([latitude, longitude]);
 
-      // Fly to the marker's spot with a slightly increased zoom level
-      const zoomLevel = map.getZoom() + 1; // Increase the zoom level by 1
+      const zoomLevel = map.getZoom() + 1;
       map.flyTo(new L.LatLng(latitude, longitude), zoomLevel);
+
+      mapDisabled.value = !internetConnection.value;
+
+      if (!internetConnection.value) {
+        map?.dragging.disable();
+      } else {
+        map?.dragging.enable();
+      }
     });
   } else {
-    console.log('Geolocation is not supported by this browser.');
+    internetConnection.value = false;
+    mapDisabled.value = true;
   }
 }
-
 
 function fitMapBounds() {
   const markerLatLng = marker?.getLatLng();
@@ -100,13 +112,14 @@ function fitMapBounds() {
 onMounted(() => {
   RestClient.getAllCanteens().then(data => {
     allCanteens.value = data;
-
-    // Loop through each canteen and add a marker for its geoLocation
     allCanteens.value.forEach(canteen => {
       const { geoLocation } = canteen.address;
       if (geoLocation && geoLocation.latitude && geoLocation.longitude) {
         const { latitude, longitude } = geoLocation;
         addMarkerForCanteens([latitude, longitude], canteen);
+      }
+      if (!internetConnection.value) {
+        mapDisabled.value = true;
       }
     });
   });
@@ -116,10 +129,39 @@ onMounted(() => {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
+  window.addEventListener('online', () => {
+    internetConnection.value = true;
+    mapDisabled.value = false;
+    map?.dragging.enable();
+  });
+
+  window.addEventListener('offline', () => {
+    internetConnection.value = false;
+    mapDisabled.value = true;
+    map?.dragging.disable();
+  });
+
+  function resizeMap() {
+    if (map) {
+      setTimeout(() => {
+        map.invalidateSize();
+        fitMapBounds();
+      }, 100);
+    }
+  }
+
+  resizeMap();
+  window.addEventListener('resize', resizeMap);
 });
 </script>
 
 <style scoped>
+.share-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
 
 .share-button {
   border: 1px solid #ddd;
@@ -130,4 +172,41 @@ onMounted(() => {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.disabled {
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+.notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ddd;
+  background-color: #ffcc00;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#mapContainer {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  overflow: hidden; /* Add this line to hide any overflow */
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%; /* Add this line to ensure the map fills the container */
+  height: 100%; /* Add this line to ensure the map fills the container */
+}
+
 </style>
