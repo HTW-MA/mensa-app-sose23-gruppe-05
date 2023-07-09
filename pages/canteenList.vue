@@ -6,7 +6,7 @@
     </div>
     <div class="canteen-container">
       <div v-for="canteen in filteredCanteens" :key="canteen.id" @click="navigateToCanteenDetails(canteen.id)" class="canteen-item" style="border: 1px solid black; margin: 10px; position: relative;">
-        <Icon v-if="canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite" color="#d9480f" size="30" />
+        <Icon v-if="canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite" color="#d9480f" size="30"  @click.stop="toggleFavourite(canteen.id)" />
         <Icon v-if="!canteenIsFavorite(canteen)" class="icon favorite-icon" name="ic:baseline-favorite-border" size="30" @click.stop="toggleFavourite(canteen.id)" />
         <div class="text-container">
           <h5 style="font-weight: bold">{{ canteen.name }}</h5>
@@ -103,8 +103,18 @@ export default {
 ,
   },
   methods: {
-    toggleFavourite(canteenid) {
-      localStorage.setItem('favoriteCanteenId', canteenid)
+    toggleFavourite(canteenId) {
+      let existingFavorites = localStorage.getItem('favoriteCanteenId') || '';
+
+      if (existingFavorites !== canteenId) {
+        // Replace existing favorite with new canteen ID
+        existingFavorites = canteenId;
+        localStorage.setItem('favoriteCanteenId', existingFavorites);
+      } else {
+        // Remove favorite if it's already the same
+        existingFavorites = '';
+        localStorage.removeItem('favoriteCanteenId');
+      }
       this.$forceUpdate();
 
     },
