@@ -84,7 +84,7 @@
   </div>
   <div v-else class="no-favorite">
     <h2>Keine Lieblingsmensa ausgewählt!</h2>
-    <p>Um deine Lieblingsmensa auszuwählen, navigiere zu einer Mensa deiner Wahl oder der Mensaliste und klicke auf das Herzsymbol in der oberen rechten Ecke. Das Herzsymbol ändert sich je nachdem, ob die Mensa zu deinen Favoriten gehört oder nicht:</p>
+    <p>Klicke auf die Herzsymbole auf den Seiten, um eine Mensa als Favorit zu markieren:</p>
     <div class="icon-example">
       <Icon
           name="ic:baseline-favorite-border"
@@ -434,7 +434,7 @@ p {
 }
 
 .no-favorite {
-  padding: 2rem;
+  padding: 0rem 2rem;
   text-align: center;
   color: #4a4a4a;
   font-size: 1.2rem;
@@ -451,7 +451,7 @@ p {
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 .icon-example p {
