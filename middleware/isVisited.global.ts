@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware((to) => {
         return navigateTo('/welcome');
     } else if (to.path === '/') {
         const favCanteenId = localStorage.getItem('favoriteCanteenId');
-        return navigateTo('canteens/' + favCanteenId);
+        return navigateTo('/canteens/' + favCanteenId);
     }
 
 });
