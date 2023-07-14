@@ -49,6 +49,19 @@
 
 import { RestClient } from '~/services/RestClient';
 import { navigateTo } from "#app";
+import {
+  get,
+  set,
+  getMany,
+  setMany,
+  update,
+  del,
+  clear,
+  keys,
+  values,
+  entries,
+  createStore,
+} from 'idb-keyval';
 
 export default {
   name: 'WelcomePage',
@@ -59,6 +72,8 @@ export default {
       showResults: false,
       filteredResults: [],
       selectedRole: '',
+      st: null,
+      favCanteenId: null,
     }
   },
   mounted() {
@@ -93,6 +108,11 @@ export default {
         console.error('Error opening IndexedDB:', event.target.error);
       };
     }
+
+    this.st = createStore('userDB', 'userStore');
+
+
+
   },
   methods: {
     searchCanteen() {
@@ -121,14 +141,41 @@ export default {
         alert('Bitte wähle eine Mensa aus!');
         return;
       }
-      const favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
+      this.favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
 
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
-      localStorage.setItem('favoriteCanteenId', favCanteenId);
-      navigateTo('/canteens/' + favCanteenId)
-    },
+      localStorage.setItem('favoriteCanteenId', this.favCanteenId);
+
+      const userProfile = {
+        id: 1,
+        userRole: this.selectedRole,
+        hasVisited: true,
+        favoriteCanteenId: this.favCanteenId,
+      };
+
+      // Save user profile to IndexedDB for offline use
+      const request = indexedDB.open('userDB', 1);
+
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction('userStore', 'readwrite').objectStore('userStore').add(userProfile, 1);
+
+        transaction.onsuccess = (event) => {
+          console.log('User profile saved to IndexedDB');
+        };
+
+        transaction.onerror = (event) => {
+          console.error('Error retrieving canteens from IndexedDB:', event.target.error);
+        };
+      };
+
+
+      this.$router.push(`/canteens/${this.favCanteenId}`)
+    }
   },
+
+
   setup() {
     definePageMeta({
       layout: 'welcome'
