@@ -49,7 +49,7 @@
 
 import { RestClient } from '~/services/RestClient';
 import { set, createStore } from 'idb-keyval';
-import { navigateTo } from 'nuxt/app';
+import { navigateTo } from '#app';
 export default {
   name: 'WelcomePage',
   data() {
