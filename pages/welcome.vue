@@ -48,20 +48,7 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
-import { navigateTo } from "#app";
-import {
-  get,
-  set,
-  getMany,
-  setMany,
-  update,
-  del,
-  clear,
-  keys,
-  values,
-  entries,
-  createStore,
-} from 'idb-keyval';
+import { set, createStore } from 'idb-keyval';
 
 export default {
   name: 'WelcomePage',
@@ -72,7 +59,7 @@ export default {
       showResults: false,
       filteredResults: [],
       selectedRole: '',
-      st: null,
+      userStore: null,
       favCanteenId: null,
     }
   },
@@ -107,10 +94,9 @@ export default {
       request.onerror = (event) => {
         console.error('Error opening IndexedDB:', event.target.error);
       };
-    }
+    };
 
-    this.st = createStore('userDB', 'userStore');
-
+    this.userStore = createStore('userDB', 'userStore');
 
 
   },
@@ -154,28 +140,15 @@ export default {
         favoriteCanteenId: this.favCanteenId,
       };
 
-      // Save user profile to IndexedDB for offline use
-      const request = indexedDB.open('userDB', 1);
-
-      request.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction('userStore', 'readwrite').objectStore('userStore').add(userProfile, 1);
-
-        transaction.onsuccess = (event) => {
-          console.log('User profile saved to IndexedDB');
-        };
-
-        transaction.onerror = (event) => {
-          console.error('Error retrieving canteens from IndexedDB:', event.target.error);
-        };
-      };
-
-
-      this.$router.push(`/canteens/${this.favCanteenId}`)
+      set('userProfile', userProfile, this.userStore).then(() => {
+        console.log('User profile saved to IndexedDB');
+        this.$router.push(`/canteens/${this.favCanteenId}`)
+      }).catch((error) => {
+        console.error('Error saving user profile to IndexedDB:', error);
+      });
+      
     }
   },
-
-
   setup() {
     definePageMeta({
       layout: 'welcome'

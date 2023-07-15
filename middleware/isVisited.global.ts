@@ -1,36 +1,36 @@
-import { defineNuxtRouteMiddleware, navigateTo } from '#app'
+import { defineNuxtRouteMiddleware, navigateTo } from '#app';
+import { get, createStore } from 'idb-keyval';
 
 export default defineNuxtRouteMiddleware((to) => {
 
-    const request = indexedDB.open('userDB', 1);
+    const userDB = 'userDB';
+    const userStore = createStore('userDB', 'userStore');
 
-    request.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction('userStore', 'readonly')
-        const userStore = transaction.objectStore('userStore');
-        const getRequest = userStore.get(1);
-
-        getRequest.onsuccess = (event) => {
-            const userProfile = event.target.result;
-            const hasVisitedFromUserProfile = userProfile.hasVisited;
-            const favoriteCanteenIdFromUserProfile = userProfile.favoriteCanteenId;
-
-            if ((favoriteCanteenIdFromUserProfile === null || favoriteCanteenIdFromUserProfile === "") && !hasVisitedFromUserProfile && to.path !== '/welcome') {
-                return navigateTo('/welcome');
-            } else if (to.path === '/') {
-                return navigateTo('/canteens/' + favoriteCanteenIdFromUserProfile);
-            } else if (to.path === '/welcome' && hasVisitedFromUserProfile) {
-                return navigateTo('/canteens/' + favoriteCanteenIdFromUserProfile);
+    if (to.path !== '/welcome' || to.matched.length === 0) {
+        console.log('IndexedDB checking coming from other Pages:');
+        get('userProfile', userStore).then((userProfile) => {
+            console.log('IndexedDB: userDB userProfile: ', userProfile);
+            if (userProfile === undefined) {
+                return navigateTo('/welcome', { redirectCode: 301 });
+            } else if (userProfile.hasVisited && userProfile.favoriteCanteenId !== null && userProfile.favoriteCanteenId !== "") {
+                return navigateTo('/canteens/' + userProfile.favoriteCanteenId, { redirectCode: 301 });
             }
-
-        };
-
-        getRequest.onerror = (event) => {
-            console.error('Error retrieving canteens from IndexedDB:', event.target.error);
-        };
+        }).catch((error) => {
+            console.error('Error getting userProfile:', error);
+        });
     };
 
-    request.onerror = (event) => {
-        console.error('Error opening IndexedDB:', event.target.error);
-    };
+     if (to.path === '/welcome') {
+       console.log('IndexedDB checking on Welcome Page:');
+       get('userProfile', userStore).then((userProfile) => {
+        console.log('IndexedDB: userDB userProfile: ', userProfile);
+        if (userProfile === undefined) {
+            return;
+        } else if (userProfile.hasVisited && userProfile.favoriteCanteenId !== null && userProfile.favoriteCanteenId !== "") {
+            return navigateTo('/canteens/' + userProfile.favoriteCanteenId, { redirectCode: 301 });
+        }
+    }).catch((error) => {
+        console.error('Error getting userProfile:', error);
+    });
+    }
 });
