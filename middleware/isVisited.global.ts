@@ -6,13 +6,17 @@ export default defineNuxtRouteMiddleware((to) => {
     const userDB = 'userDB';
     const userStore = createStore('userDB', 'userStore');
 
-    if (to.path !== '/welcome' || to.matched.length === 0) {
+    if (to.matched.length === 0)  {
         console.log('IndexedDB checking coming from other Pages:');
+        console.log('To matched: ', to.matched)
         get('userProfile', userStore).then((userProfile) => {
             console.log('IndexedDB: userDB userProfile: ', userProfile);
             if (userProfile === undefined) {
                 return navigateTo('/welcome', { redirectCode: 301 });
-            } else if (userProfile.hasVisited && userProfile.favoriteCanteenId !== null && userProfile.favoriteCanteenId !== "") {
+            } else if (userProfile.hasVisited 
+                && userProfile.favoriteCanteenId !== null 
+                && userProfile.favoriteCanteenId !== "" 
+                && to.path !== '/canteenlist/') {
                 return navigateTo('/canteens/' + userProfile.favoriteCanteenId, { redirectCode: 301 });
             }
         }).catch((error) => {
