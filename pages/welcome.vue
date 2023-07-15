@@ -49,7 +49,7 @@
 
 import { RestClient } from '~/services/RestClient';
 import { set, createStore } from 'idb-keyval';
-
+import { navigateTo } from 'nuxt/app';
 export default {
   name: 'WelcomePage',
   data() {
@@ -142,7 +142,7 @@ export default {
 
       set('userProfile', userProfile, this.userStore).then(() => {
         console.log('User profile saved to IndexedDB');
-        this.$router.push(`/canteens/${this.favCanteenId}`)
+        return navigateTo('/canteens/' + this.favCanteenId)
       }).catch((error) => {
         console.error('Error saving user profile to IndexedDB:', error);
       });
