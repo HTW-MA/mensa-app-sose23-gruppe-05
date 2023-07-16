@@ -142,7 +142,7 @@ export default {
 
       set('userProfile', userProfile, this.userStore).then(() => {
         console.log('User profile saved to IndexedDB');
-        this.$router.push(`/canteens/'${this.favCanteenId}`);
+        this.$router.push(`/canteens/${this.favCanteenId}`);
       }).catch((error) => {
         console.error('Error saving user profile to IndexedDB:', error);
       });
