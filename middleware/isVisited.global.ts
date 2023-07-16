@@ -1,40 +1,36 @@
+let hasVisited = false;
 import { defineNuxtRouteMiddleware, navigateTo } from '#app';
 import { get, createStore } from 'idb-keyval';
 
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
 
-    const userDB = 'userDB';
     const userStore = createStore('userDB', 'userStore');
+    const userProfile = await get('userProfile', userStore);
+    console.log('Actual user profile: ', userProfile);
+    if (userProfile === undefined) {
+        hasVisited = false;
+        console.log('User Profile  undefined, hasVisited: ', hasVisited);
+    } else {
+        hasVisited = userProfile.hasVisited;
+        console.log('User Profile  defined, hasVisited: ', hasVisited);
+    }
 
-    if (to.matched.length === 0)  {
-        console.log('IndexedDB checking coming from other Pages:');
-        console.log('To matched: ', to.matched)
-        get('userProfile', userStore).then((userProfile) => {
-            console.log('IndexedDB: userDB userProfile: ', userProfile);
-            if (userProfile === undefined) {
-                return navigateTo('/welcome', { redirectCode: 301 });
-            } else if (userProfile.hasVisited 
-                && userProfile.favoriteCanteenId !== null 
-                && userProfile.favoriteCanteenId !== "" 
-                && to.path !== '/canteenlist/') {
-                return navigateTo('/canteens/' + userProfile.favoriteCanteenId, { redirectCode: 301 });
-            }
-        }).catch((error) => {
-            console.error('Error getting userProfile:', error);
-        });
+    console.log('Acutal hasVisited: ', hasVisited);
+
+    if (to.path === '/' && hasVisited === false) {
+        console.log('User has not visited the page yet, redirecting to welcome page.')
+        return navigateTo('/welcome');
+    } else if (to.path === '/' && hasVisited === true) {
+        console.log('User has already visited the welcome page, redirecting to favorite canteen page')
+        console.log('Actual user profile: ', userProfile);
+        return navigateTo('/canteens/' + userProfile.favoriteCanteenId);
     };
 
-     if (to.path === '/welcome') {
-       console.log('IndexedDB checking on Welcome Page:');
-       get('userProfile', userStore).then((userProfile) => {
-        console.log('IndexedDB: userDB userProfile: ', userProfile);
-        if (userProfile === undefined) {
-            return;
-        } else if (userProfile.hasVisited && userProfile.favoriteCanteenId !== null && userProfile.favoriteCanteenId !== "") {
-            return navigateTo('/canteens/' + userProfile.favoriteCanteenId, { redirectCode: 301 });
-        }
-    }).catch((error) => {
-        console.error('Error getting userProfile:', error);
-    });
-    }
+
+    if (to.path === '/welcome' && hasVisited === true && userProfile.favoriteCanteenId !== "") {
+        console.log('User has already visited the welcome page and has no favorite canteen selected, redirecting to default favorite page')
+        return navigateTo('/canteens/null');
+    };
+
+
 });
