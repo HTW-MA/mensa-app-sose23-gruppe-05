@@ -26,7 +26,6 @@ import { RestClient } from "~/services/RestClient";
 import firebase from "@/plugins/firebase.js";
 import { onMessage } from "firebase/messaging";
 import { getMessaging, getToken } from "firebase/messaging";
-import { createStore, get, set } from "idb-keyval";
 
 export default {
   data() {
@@ -39,11 +38,9 @@ export default {
         { value: 'guest', label: 'Gast' },
       ],
       canteens: [],
-      userStore: createStore('userDB', 'userStore'),
-      userProfile: '',
     }
   },
-  mounted(): void {
+  mounted() {
     this.canteens = RestClient.getAllCanteens()
     this.getUserRole()
     this.getNotificationStatus()
@@ -51,40 +48,10 @@ export default {
   },
   methods: {
     setUserRole() {
-      
-      console.log('User Profile from userStore: ', this.userProfile);
-
-      const userProfile = {
-        id: this.userProfile.id,
-        userRole: this.userRole,
-        favoriteCanteenId: this.userProfile.favoriteCanteenId,
-        hasVisited: this.userProfile.hasVisited,
-      };
-
-      console.log('User Profile Local: ', userProfile);
-
-      set('userProfile', userProfile, this.userStore)
-        .then(() => {
-          console.log('User role saved: ', this.userRole);
-        })
-        .catch((err) => {
-          console.log('Error saving user role: ', err);
-        });
-
-      // localStorage.setItem('userRole', this.userRole)
+      localStorage.setItem('userRole', this.userRole)
     },
     getUserRole() {
-      get('userProfile', this.userStore)
-        .then((val) => {
-          console.log('GET User profile from userStore: ', val);
-          this.userProfile = val;
-          console.log('Local User profile: ', this.userProfile);
-          this.userRole = val.userRole;
-        })
-        .catch((err) => {
-          console.log('Error getting user profile: ', err);
-        });
-      // this.userRole = localStorage.getItem('userRole')
+      this.userRole = localStorage.getItem('userRole')
     },
 
     toggleNotifications() {
