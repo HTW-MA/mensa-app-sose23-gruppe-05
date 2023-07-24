@@ -62,8 +62,8 @@ export default {
             body: JSON.stringify({
               to: token,
               data: {
-                title: "Welcome",
-                body: "Welcome to MensaMania!",
+                title: "Willkommen",
+                body: "Willkommen bei MensaMania!",
               },
             }),
           });
