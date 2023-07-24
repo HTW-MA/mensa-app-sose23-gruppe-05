@@ -126,7 +126,7 @@ export default {
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
       localStorage.setItem('favoriteCanteenId', favCanteenId);
-      navigateTo(`canteens/${favCanteenId}`).then(() => {window.location.reload();});
+      navigateTo(`canteens/${favCanteenId}`).then(() => {location.reload();});
     },
   },
   setup() {
