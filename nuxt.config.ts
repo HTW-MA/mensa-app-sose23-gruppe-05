@@ -83,9 +83,9 @@ export default defineNuxtConfig({
             ],
         },
         workbox: {
-            navigateFallback: '/',
+            navigateFallback: '/offline.html',
             swDest: '/sw.js',
-            globPatterns: ['**/*.{js,css,html,png,svg,ico,vue}'],
+            globPatterns: ['**/*.{js,css,html,png,svg,ico,vue}', 'offline.html'],
             runtimeCaching: [
                 {
                     urlPattern: ({ url }) => url.origin === 'https://mensa.projekt-ipa.tech' && url.pathname.startsWith('/api/'),
@@ -109,7 +109,7 @@ export default defineNuxtConfig({
         devOptions: {
             enabled: true,
             suppressWarnings: true,
-            navigateFallbackAllowlist: [/^\/$/],
+            navigateFallbackAllowlist: [/^\/$/, /^\/offline.html$/],
             type: 'module',
         },
     },

@@ -32,6 +32,7 @@
     "idb-keyval": "^6.2.1",
     "leaflet": "^1.9.4",
     "node": "^20.2.0",
+    "vite-plugin-pwa": "^0.16.4",
     "workbox-precaching": "^7.0.0"
   }
 }
