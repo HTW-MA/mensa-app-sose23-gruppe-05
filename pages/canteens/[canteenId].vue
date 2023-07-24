@@ -22,7 +22,7 @@
       <Icon
           name="ic:baseline-favorite"
           size="50px"
-          color="#495057"
+          color="#808080"
       ></Icon>
     </div>
     <div class="canteen-details">
