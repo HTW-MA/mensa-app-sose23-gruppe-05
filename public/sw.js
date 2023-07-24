@@ -103,11 +103,13 @@ self.addEventListener('install', (event) => {
                     });
                 });
             })
+            .then(() => self.skipWaiting()) // Add this line
             .catch((error) => {
                 console.error('Error fetching canteens:', error);
             })
     );
 });
+
 
 // DELETE OLD CACHES
 self.addEventListener('activate', (event) => {
