@@ -7,8 +7,8 @@
         <div class="mb-3">
           <label for="searchField" class="form-label" style="font-weight: bold; color: #555;">Lieblingsmensa:</label>
           <input className="canteenSearch" type="search" id="canteenSearch" class="form-control equal-width"
-            v-model="canteen" placeholder="Suche deine Lieblingsmensa" style="background-color: #ffffff;"
-            @input="searchCanteen" @click="searchCanteen">
+                 v-model="canteen" placeholder="Suche deine Lieblingsmensa" style="background-color: #ffffff;"
+                 @input="searchCanteen" @click="searchCanteen">
         </div>
         <div class="mb-3">
           <ul class="list-group" v-if="showResults === true">
@@ -24,7 +24,7 @@
         <div class="mb-3">
           <label for="roleSelect" class="form-label" style="font-weight: bold; color: #555;">Rolle:</label>
           <select className="roleSelect" id="roleSelect" class="form-select equal-width" v-model="selectedRole"
-            style="background-color: #ffffff;" placeholder="Wähle eine Rolle">
+                  style="background-color: #ffffff;" placeholder="Wähle eine Rolle">
             <option value="" disabled style="color: #555;">Wähle eine Rolle...</option>
             <option value="student" style="color: #555;">Student</option>
             <option value="employee" style="color: #555;">Angestellter</option>
@@ -48,8 +48,8 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
-import { set, createStore } from 'idb-keyval';
-import { navigateTo } from '#app';
+import { navigateTo } from "#app";
+
 export default {
   name: 'WelcomePage',
   data() {
@@ -59,8 +59,6 @@ export default {
       showResults: false,
       filteredResults: [],
       selectedRole: '',
-      userStore: null,
-      favCanteenId: null,
     }
   },
   mounted() {
@@ -94,11 +92,7 @@ export default {
       request.onerror = (event) => {
         console.error('Error opening IndexedDB:', event.target.error);
       };
-    };
-
-    this.userStore = createStore('userDB', 'userStore');
-
-
+    }
   },
   methods: {
     searchCanteen() {
@@ -127,27 +121,13 @@ export default {
         alert('Bitte wähle eine Mensa aus!');
         return;
       }
-      this.favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
+      const favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
 
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
-      localStorage.setItem('favoriteCanteenId', this.favCanteenId);
-
-      const userProfile = {
-        id: 1,
-        userRole: this.selectedRole,
-        hasVisited: true,
-        favoriteCanteenId: this.favCanteenId,
-      };
-
-      set('userProfile', userProfile, this.userStore).then(() => {
-        console.log('User profile saved to IndexedDB');
-        this.$router.push(`/canteens/${this.favCanteenId}`);
-      }).catch((error) => {
-        console.error('Error saving user profile to IndexedDB:', error);
-      });
-
-    }
+      localStorage.setItem('favoriteCanteenId', favCanteenId);
+      navigateTo('canteens/' + favCanteenId)
+    },
   },
   setup() {
     definePageMeta({
