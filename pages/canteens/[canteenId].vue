@@ -1,7 +1,7 @@
 <template>
   <div v-if="canteen">
   <div class="container">
-    <div class="canteen-header">
+    <div v-if="internetConnection" class="canteen-header">
       <h3>{{canteen.name}}</h3>
       <Icon
           v-if="!isFavourite"
@@ -15,6 +15,14 @@
           size="50px"
           color="#d9480f"
           @click="toggleFavourite"
+      ></Icon>
+    </div>
+    <div v-else class="canteen-header">
+      <h3>{{canteen.name}}</h3>
+      <Icon
+          name="ic:baseline-favorite"
+          size="50px"
+          color="#495057"
       ></Icon>
     </div>
     <div class="canteen-details">
@@ -129,10 +137,15 @@ export default {
       selectedDate: new Date(),
       day: '',
       userRole: localStorage.getItem('userRole'),
-      isLoading: true
+      isLoading: true,
+      internetConnection: navigator.onLine,
     }
   },
   mounted() {
+    window.addEventListener('online', this.updateInternetConnection);
+    window.addEventListener('offline', this.updateInternetConnection);
+    // Check if there is an internet connection
+    const isOnline = navigator.onLine;
     // Fetch canteen data from API
     RestClient.getCanteenById(this.canteenId)
         .then(data => {
@@ -271,6 +284,9 @@ export default {
       this.checkFavorite();
     },
 
+    updateInternetConnection() {
+      this.internetConnection = navigator.onLine;
+    },
 
     checkFavorite() {
       const canteenId = this.canteen.id;
