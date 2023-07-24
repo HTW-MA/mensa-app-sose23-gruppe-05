@@ -7,9 +7,10 @@
             <a class="navbar-brand">
               <img src="../assets/logo.png" alt="logo" style="height: 50px; width: auto; margin: 10px;" class="" @click="navigateToFavorites">
             </a>
-            <NuxtLink class="link" to="/settings" style="width: auto; margin: 10px; float: right;">
+            <NuxtLink v-if="internetConnection" class="link" to="/settings" style="width: auto; margin: 10px; float: right;">
               <Icon class="icon" name="ic:round-settings" color="black" size="30px" />
             </NuxtLink>
+            <Icon v-else class="icon" name="ic:outline-signal-wifi-statusbar-connected-no-internet-4" color="#d9480f" size="30px" />
           </div>
         </nav>
       </div>
@@ -38,12 +39,24 @@
 
 <script>
 export default {
+  data() {
+    return {
+      internetConnection: navigator.onLine,
+    };
+  },
   name: 'DefaultLayout',
+  mounted() {
+    window.addEventListener('online', this.updateInternetConnection);
+    window.addEventListener('offline', this.updateInternetConnection);
+  },
   methods: {
     navigateToFavorites() {
       const favorites = localStorage.getItem('favoriteCanteenId');
           this.$router.push(`/canteens/${favorites}`);
 
+    },
+    updateInternetConnection() {
+      this.internetConnection = navigator.onLine;
     },
   },
 };
