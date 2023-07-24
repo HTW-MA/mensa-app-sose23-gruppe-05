@@ -163,6 +163,7 @@ onMounted(() => {
 }
 
 .share-button {
+  color: black;
   border: 1px solid #ddd;
   background-color: #ff992b;
   margin-top: 5px;
