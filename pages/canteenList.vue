@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="filter-container">
-      <h6 v-if="!internetConnection">Without a Internet connection you only have access to your favorite canteen</h6>
+      <h6 v-if="!internetConnection">Ohne Internetverbindung haben Sie nur auf Lieblingsmensa Zugriff</h6>
       <input class="form-control" type="text" v-model="filterText" placeholder="Mensa suchen">
     </div>
     <div class="canteen-container">
