@@ -8,9 +8,11 @@ import { RestClient } from "~/services/RestClient";
 
 
 // Precache the necessary resources
-precacheAndRoute(self.__WB_MANIFEST || []);
+precacheAndRoute([
+    ...self.__WB_MANIFEST,
+    {url: '/_nuxt/offline.[contenthash].js', revision: null}
+]);
 
-/*
 
 // Register the network-first caching strategy for all routes under https://mensa.projekt-ipa.tech/api/
 registerRoute(
@@ -22,6 +24,32 @@ registerRoute(
         ],
     })
 );
+
+// Register the network-first caching strategy for all offline
+
+registerRoute(
+    ({url}) => url.pathname.startsWith('/'),
+    new NetworkFirst({
+        cacheName: 'pages',
+        plugins: [
+            // A plugin to handle the fallback to the offline page
+            {
+                fetchDidFail: async ({originalRequest}) => {
+                    // This will be called when any request fails,
+                    // and will respond with the precached offline page.
+                    // You could customize this to respond based on the
+                    // type of request (HTML, CSS, images, etc.)
+                    if (originalRequest.destination === 'document') {
+                        return caches.match('/_nuxt/offline.[contenthash].js');
+                    }
+
+                    throw Error(`The page is not available offline`);
+                }
+            }
+        ]
+    })
+);
+
 
 // Open a connection to the IndexedDB database
 function openDatabase() {
@@ -98,4 +126,4 @@ self.addEventListener('activate', (event) => {
 
     // Trigger the install event again
     self.skipWaiting();
-*/
+});
