@@ -16,7 +16,8 @@
     <label for="pushNotifications" class="form-label">Push-Benachrichtigungen:</label>
     <input type="checkbox" v-model="notificationsEnabled" @change="toggleNotifications()" class="form-check-input"
       id="pushNotifications">
-    <span> (Please remove Push Notification Permissions in order to disable Push Notifications)</span>
+    <br>
+    <span> (Bitte entfernen Sie die Berechtigungen für Push-Benachrichtigungen in Ihren Einstellungen, um die Benachrichtigungen zu deaktivieren.)</span>
   </div>
 </template>
 
