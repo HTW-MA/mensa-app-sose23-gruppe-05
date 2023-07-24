@@ -48,8 +48,8 @@
 <script >
 
 import { RestClient } from '~/services/RestClient';
-import { navigateTo } from "#app";
-
+import { set, createStore } from 'idb-keyval';
+import { navigateTo } from '#app';
 export default {
   name: 'WelcomePage',
   data() {
@@ -59,6 +59,8 @@ export default {
       showResults: false,
       filteredResults: [],
       selectedRole: '',
+      userStore: null,
+      favCanteenId: null,
     }
   },
   mounted() {
@@ -92,7 +94,11 @@ export default {
       request.onerror = (event) => {
         console.error('Error opening IndexedDB:', event.target.error);
       };
-    }
+    };
+
+    this.userStore = createStore('userDB', 'userStore');
+
+
   },
   methods: {
     searchCanteen() {
@@ -121,13 +127,27 @@ export default {
         alert('Bitte wähle eine Mensa aus!');
         return;
       }
-      const favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
+      this.favCanteenId = this.filteredResults.find(canteen => canteen.name === this.canteen).id;
 
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
-      localStorage.setItem('favoriteCanteenId', favCanteenId);
-      navigateTo('canteens/' + favCanteenId)
-    },
+      localStorage.setItem('favoriteCanteenId', this.favCanteenId);
+
+      const userProfile = {
+        id: 1,
+        userRole: this.selectedRole,
+        hasVisited: true,
+        favoriteCanteenId: this.favCanteenId,
+      };
+
+      set('userProfile', userProfile, this.userStore).then(() => {
+        console.log('User profile saved to IndexedDB');
+        this.$router.push(`/canteens/${this.favCanteenId}`);
+      }).catch((error) => {
+        console.error('Error saving user profile to IndexedDB:', error);
+      });
+
+    }
   },
   setup() {
     definePageMeta({
