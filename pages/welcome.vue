@@ -37,7 +37,7 @@
       <div class="row mt-3">
         <div class="col-sm"></div>
         <div class="col-sm">
-          <NuxtLink class="btn text-center" @click="saveSetting">Speichern</NuxtLink>
+          <button class="btn text-center" @click="saveSetting">Speichern</button>
         </div>
         <div class="col-sm"></div>
       </div>
@@ -126,9 +126,7 @@ export default {
       localStorage.setItem('userRole', this.selectedRole);
       localStorage.setItem('hasVisited', true);
       localStorage.setItem('favoriteCanteenId', favCanteenId);
-      //navigateTo('canteens/' + favCanteenId)
-      this.$router.push(`/canteens/${favCanteenId}`)
-
+      navigateTo('canteens/' + favCanteenId)
     },
   },
   setup() {
