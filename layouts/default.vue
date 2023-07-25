@@ -10,7 +10,7 @@
             <NuxtLink v-if="internetConnection" class="link" to="/settings" style="width: auto; margin: 10px; float: right;">
               <Icon class="icon" name="ic:round-settings" color="black" size="30px" />
             </NuxtLink>
-            <OfflineIcon class="icon" :size="'30px'" :color="'#d9480f'" />
+            <OfflineIcon v-else class="icon" :size="'30px'" :color="'#d9480f'" />
           </div>
         </nav>
       </div>
