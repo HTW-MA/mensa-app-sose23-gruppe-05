@@ -2,7 +2,7 @@
   <div>
     <div id="mapContainer">
       <div id="map" :class="{ 'disabled': !internetConnection }"></div>
-      <div v-if="!internetConnection" class="notification">In order to have access to the map, please ensure that you have an internet connection.</div>
+      <div v-if="!internetConnection" class="notification">Um auf die Karte zugreifen zu können, müssen Sie über eine Internetverbindung verfügen.</div>
     </div>
     <div class="share-button-container">
       <button class="share-button" @click="trackLocation" :disabled="!internetConnection" v-show="internetConnection">Meinen Standort abrufen</button>
@@ -163,6 +163,7 @@ onMounted(() => {
 }
 
 .share-button {
+  color: black;
   border: 1px solid #ddd;
   background-color: #ff992b;
   margin-top: 5px;
