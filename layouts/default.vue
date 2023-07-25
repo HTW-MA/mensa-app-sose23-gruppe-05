@@ -10,7 +10,7 @@
             <NuxtLink v-if="internetConnection" class="link" to="/settings" style="width: auto; margin: 10px; float: right;">
               <Icon class="icon" name="ic:round-settings" color="black" size="30px" />
             </NuxtLink>
-            <Icon v-else class="icon" name="ic:outline-signal-wifi-statusbar-connected-no-internet-4" color="#d9480f" size="30px" />
+            <OfflineIcon class="icon" :size="'30px'" :color="'#d9480f'" />
           </div>
         </nav>
       </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import OfflineIcon from "assets/IcBaselineSignalWifiConnectedNoInternet4.vue";
 export default {
   data() {
     return {
@@ -45,6 +46,9 @@ export default {
     };
   },
   name: 'DefaultLayout',
+  components: {
+    OfflineIcon,
+  },
   mounted() {
     window.addEventListener('online', this.updateInternetConnection);
     window.addEventListener('offline', this.updateInternetConnection);
